@@ -4,7 +4,7 @@
 unsigned int framebuffer_h;
 unsigned int framebuffer_v;
 
-cg3DPoint camera = {0, 0, -1};
+cgPoint3f camera = {0, 0, -1};
 cgProjectionMatrix projection_matrix = {{0,0}, {1000, 1000}};
 
 long double cgMapXFrameToProjectionMatrix(int x){

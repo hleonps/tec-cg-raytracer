@@ -3,9 +3,9 @@ CC = gcc
 CFLAGS = -std=gnu99 -Wall -I./headers
 
 ifeq ($(OS),Darwin)
-	LDLIBS = -framework GLUT -framework OpenGL -framework Cocoa
+	LDLIBS =
 else
-	LDLIBS = -lX11 -lglut -lGLU -lGL -lm
+	LDLIBS = -lm
 endif
 
 C_SOURCES = $(wildcard ./src/*.c)

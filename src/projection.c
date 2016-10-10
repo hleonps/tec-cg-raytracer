@@ -1,5 +1,5 @@
-#include "vector.h"
 #include "projection.h"
+#include "graphics.h"
 
 cgPoint3f camera = {0, 0, -1};
 cgProjectionMatrix projection_matrix = {{0,0}, {0, 0}};

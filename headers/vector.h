@@ -1,6 +1,11 @@
 typedef struct {
 	long double x;
 	long double y;
+} cgPoint2f;
+
+typedef struct {
+	long double x;
+	long double y;
 	long double z;
 } cg3DPoint;
 

@@ -1,3 +1,4 @@
+#include "vector.h"
 #include "projection.h"
 #include "graphics.h"
 #include "object.h"

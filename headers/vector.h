@@ -1,3 +1,4 @@
+
 typedef struct {
 	long double x;
 	long double y;

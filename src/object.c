@@ -17,6 +17,7 @@ cgIntersection * first_intersection(cgPoint3f camera, cgVector3f ray_direction){
 		temp_intersection = object_list.objects[i].intersection(camera, ray_direction, object_list.objects[i].data);
 
 		if(temp_intersection && temp_intersection->distance < t_min){
+			temp_intersection->object = object_list.objects[i];
 			t_min = temp_intersection->distance;
 
 			intersection = temp_intersection;

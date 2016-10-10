@@ -1,5 +1,6 @@
 #include "projection.h"
 #include "graphics.h"
+#include "object.h"
 
 void generate_image(void);
 cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction);
@@ -29,5 +30,14 @@ void generate_image(){
 }
 
 cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction){
-	
+	cgColor color = {0, 0, 0, 1};
+	cgIntersection * intersection;
+
+	intersection = first_intersection(camera, ray_direction);
+
+	if(intersection){
+		color = intersection->object.color;
+	}
+
+	return color;
 }

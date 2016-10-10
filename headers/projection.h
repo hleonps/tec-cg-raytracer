@@ -1,9 +1,10 @@
+
 typedef struct {
 	cgPoint2f min;
 	cgPoint2f max;
 } cgProjectionMatrix;
 
-cgProjectionMatrix projection_matrix;
-
-unsigned int framebuffer_h;
-unsigned int framebuffer_v;
+void cgSetCamaraPosition(int x, int y, int z);
+void cgSetProjectionMatrix(int left, int right, int bottom, int top);
+long double cgMapXFrameToProjectionMatrix(int x);
+long double cgMapYFrameToProjectionMatrix(int y);

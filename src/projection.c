@@ -1,11 +1,22 @@
 #include "vector.h"
 #include "projection.h"
 
-unsigned int framebuffer_h;
-unsigned int framebuffer_v;
-
 cgPoint3f camera = {0, 0, -1};
-cgProjectionMatrix projection_matrix = {{0,0}, {1000, 1000}};
+cgProjectionMatrix projection_matrix = {{0,0}, {0, 0}};
+
+void cgSetCamaraPosition(int x, int y, int z){
+	camera.x = x;
+	camera.y = y;
+	camera.z = (z < -1) ? z : -1;
+}
+
+void cgSetProjectionMatrix(int left, int right, int bottom, int top){
+	projection_matrix.min.x = left;
+	projection_matrix.max.x = right;
+
+	projection_matrix.min.y = bottom;
+	projection_matrix.max.y = top;
+}
 
 long double cgMapXFrameToProjectionMatrix(int x){
 	long double min_x = projection_matrix.min.x;

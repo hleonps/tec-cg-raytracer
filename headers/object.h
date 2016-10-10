@@ -20,10 +20,3 @@ struct cgIntersection{
 	cgPoint3f point;
 	cgObject object;
 };
-
-struct cgObjectList {
-	cgObject * objects;
-	unsigned int size;
-};
-
-cgIntersection * first_intersection(cgPoint3f camera, cgVector3f ray_direction);

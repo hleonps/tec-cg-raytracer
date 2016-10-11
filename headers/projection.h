@@ -1,4 +1,3 @@
-#include "vector.h"
 
 typedef struct {
 	cgPoint2f min;

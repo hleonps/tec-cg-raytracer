@@ -1,12 +1,33 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <float.h>
 #include "graphics.h"
 #include "vector.h"
 #include "object.h"
+#include "sphere.h"
 #include "scene.h"
 
-cgScene scene;
+cgScene scene = {NULL, 0};
+
+void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
+	// cgObject * sphere = (cgObject *) malloc(sizeof(cgObject));
+	cgObject sphere;
+	sphere.type = SPHERE;
+	sphere.color = color;
+	sphere.intersection = &cgSphereIntersection;
+
+	cgSphere * information = (cgSphere *) malloc(sizeof(cgSphere));
+	information->radius = radius;
+	information->center = center;
+
+	sphere.data = (void *) information;
+
+	scene.num_objects++;
+
+	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
+	scene.objects[scene.num_objects - 1] = sphere;
+}
 
 cgIntersection * first_intersection(cgPoint3f camera, cgVector3f ray_direction){
 

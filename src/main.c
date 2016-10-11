@@ -23,8 +23,12 @@ void save_image();
 int main(int argc, char const *argv[]) {
 
 	init_framebuffer(800, 800);
-	cgSetProjectionMatrix(0, 0, 1000, 1000);
-	cgSetCamaraPosition(100, 200, -100);
+	cgSetProjectionMatrix(0, 1000, 0, 1000);
+	cgSetCamaraPosition(500, 500, -1000);
+
+	cgPoint3f center = {500,500,0};
+	cgColor red = {1,0,0,1};
+	cgAddSphereToScene(center, 100, red);
 
 	generate_image();
 

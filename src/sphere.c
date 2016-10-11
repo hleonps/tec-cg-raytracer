@@ -27,8 +27,6 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 		long double t1 = (-beta + discriminant_root) / 2;
 		long double t2 = (-beta - discriminant_root) / 2;
 
-
-
 		if(t1 >= 0 && t2 >= 0) {
 			t_min = MIN(t1, t2);
 		}

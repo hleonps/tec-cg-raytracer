@@ -1,8 +1,8 @@
 
 typedef struct {
 	long double r;
-	long double b;
 	long double g;
+	long double b;
 	long double a;
 } cgColor;
 

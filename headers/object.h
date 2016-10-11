@@ -1,5 +1,6 @@
 
 typedef struct cgIntersection * (*cgIntersectionFunction)(cgPoint3f,cgVector3f,void*);
+typedef cgVector3f (*cgNormalVector)(cgPoint3f,void*);
 typedef struct cgObject cgObject;
 typedef struct cgIntersection cgIntersection;
 typedef struct cgObjectList cgObjectList;
@@ -13,6 +14,9 @@ struct cgObject {
 	cgColor color;
 	void * data;
 	cgIntersectionFunction intersection;
+	cgNormalVector normal_vector;
+	long double diffuse_factor;
+	long double environment_lighting;
 };
 
 struct cgIntersection{

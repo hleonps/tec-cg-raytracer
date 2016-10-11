@@ -9,6 +9,15 @@
 #define NO_INTERSECTION_T_VALUE -1
 #define MIN(X,Y) ((X < Y) ? X : Y)
 
+cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
+	cgSphere sphere_information = (*(cgSphere*) (information));
+
+	cgVector3f normal_vector = cgDirectionVector(sphere_information.center, intersection);
+	cgVector3f unit_vector = cgNormalizedVector(normal_vector, sphere_information.radius);
+
+	return unit_vector;
+}
+
 cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
 	cgSphere sphere_information = (*(cgSphere*) (data));
 

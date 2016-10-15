@@ -6,8 +6,9 @@
 #include "object.h"
 #include "sphere.h"
 
-#define NO_INTERSECTION_T_VALUE -1.0000000000
-#define FIX_FLOATING_POINT 0.0000000001
+#define NO_INTERSECTION_T_VALUE -1.000000
+#define FIX_FLOATING_POINT 0.000005
+#define EPSILON (FIX_FLOATING_POINT)
 #define MIN(X,Y) ((X < Y) ? X : Y)
 
 cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
@@ -32,18 +33,19 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 	cgIntersection * intersection = NULL;
 	long double t_min = NO_INTERSECTION_T_VALUE;
 
-	if(discriminant > (0 + FIX_FLOATING_POINT)){
+	if(discriminant > EPSILON){
 		long double discriminant_root = sqrt(discriminant);
 		long double t1 = ((long double) -beta + discriminant_root) / 2;
 		long double t2 = ((long double) -beta - discriminant_root) / 2;
 
-		if(t1 > 0 && t2 > 0) {
+
+		if(t1 > EPSILON && t2 > EPSILON) {
 			t_min = MIN(t1, t2);
 		}
-		else if(t1 > 0){
+		else if(t1 > EPSILON){
 			t_min = t1;
 		}
-		else if(t2 > 0){
+		else if(t2 > EPSILON){
 			t_min = t2;
 		}
 	}

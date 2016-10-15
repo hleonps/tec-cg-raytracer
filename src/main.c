@@ -47,6 +47,13 @@ int main(int argc, char const *argv[]) {
 
 	cgAddSphereToScene(center, 150, green);
 
+	cgColor purple = {1,0,1,1};
+	center.x = 500;
+	center.y = 200;
+	center.z = 350;
+
+	cgAddSphereToScene(center, 50, purple);
+
 	cgSetEnvironmentLighting(0.4);
 	cgPoint3f light_position = {200, 270, 0};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
@@ -54,6 +61,11 @@ int main(int argc, char const *argv[]) {
 	light_position.x = 750;
 	light_position.y = 700;
 	cgAddLightSourceToScene(light_position, 0.6, 0, 0.01, 0);
+
+	light_position.x = 550;
+	light_position.y = 100;
+	light_position.z = 300;
+	cgAddLightSourceToScene(light_position, 1, 0, 0.01, 0);
 
 	generate_image();
 
@@ -78,8 +90,9 @@ void generate_image(){
 cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction){
 	cgColor color = {0.3, 0.3, 0.3, 1};
 	cgIntersection * intersection;
+	cgIntersection * intersection_between_object_light;
 
-	intersection = first_intersection(camera, ray_direction);
+	intersection = cgFirstIntersection(camera, ray_direction);
 
 	if(intersection){
 		cgObject object = intersection->object;
@@ -94,12 +107,16 @@ cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction){
 			long double to_light_distance = cgVectorMagnitude(to_light_vector);
 			cgVector3f unit_light_vector = cgNormalizedVector(to_light_vector, to_light_distance);
 
-			long double light_normal_dot_product = cgDotProduct(unit_light_vector, normal_vector);
-			if(light_normal_dot_product > 0){
-				long double attenuation_factor = cgAttenuationFactor(&scene.lights[i], to_light_distance);
+			intersection_between_object_light = cgFirstIntersection(intersection->point, unit_light_vector);
 
-				light_intensity = light_intensity +
-					(light_normal_dot_product * object.diffuse_factor * attenuation_factor * scene.lights[i].intensity);
+			if(!intersection_between_object_light){
+				long double light_normal_dot_product = cgDotProduct(unit_light_vector, normal_vector);
+				if(light_normal_dot_product > 0){
+					long double attenuation_factor = cgAttenuationFactor(&scene.lights[i], to_light_distance);
+
+					light_intensity = light_intensity +
+						(light_normal_dot_product * object.diffuse_factor * attenuation_factor * scene.lights[i].intensity);
+				}
 			}
 		}
 

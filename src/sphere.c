@@ -6,10 +6,10 @@
 #include "object.h"
 #include "sphere.h"
 
-#define NO_INTERSECTION_T_VALUE -1.000000
-#define FIX_FLOATING_POINT 0.000005
-#define EPSILON (FIX_FLOATING_POINT)
 #define MIN(X,Y) ((X < Y) ? X : Y)
+
+const long double NO_INTERSECTION_T_VALUE = -1.000000;
+const long double EPSILON = 0.000002;
 
 cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
 	cgSphere sphere_information = (*(cgSphere*) (information));
@@ -23,6 +23,7 @@ cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
 cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
 	cgSphere sphere_information = (*(cgSphere*) (data));
 
+	cgIntersection * intersection = NULL;
 	cgVector3f intersection_direction =  cgDirectionVector(sphere_information.center, camera);
 
 	long double beta = 2*(cgDotProduct(ray_direction, intersection_direction));
@@ -30,14 +31,12 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 		+ (intersection_direction.z * intersection_direction.z) - (sphere_information.radius * sphere_information.radius);
 
 	long double discriminant = (beta * beta) - (4 * delta);
-	cgIntersection * intersection = NULL;
 	long double t_min = NO_INTERSECTION_T_VALUE;
 
 	if(discriminant > EPSILON){
 		long double discriminant_root = sqrt(discriminant);
 		long double t1 = ((long double) -beta + discriminant_root) / 2;
 		long double t2 = ((long double) -beta - discriminant_root) / 2;
-
 
 		if(t1 > EPSILON && t2 > EPSILON) {
 			t_min = MIN(t1, t2);
@@ -49,8 +48,8 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 			t_min = t2;
 		}
 	}
-
-	if(t_min > (NO_INTERSECTION_T_VALUE + FIX_FLOATING_POINT)){
+	
+	if(t_min > (NO_INTERSECTION_T_VALUE + EPSILON)){
 		intersection = (cgIntersection *) malloc(sizeof(cgIntersection));
 
 		intersection->distance = t_min;

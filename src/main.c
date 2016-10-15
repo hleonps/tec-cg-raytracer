@@ -21,7 +21,7 @@ void generate_image(void);
 cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction);
 void save_image();
 
-#define FILE_NAME "scene.avs"
+const char* FILE_NAME = "scene.avs";
 
 int main(int argc, char const *argv[]) {
 

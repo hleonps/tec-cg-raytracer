@@ -109,7 +109,7 @@ cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction){
 
 			intersection_between_object_light = cgFirstIntersection(intersection->point, unit_light_vector);
 
-			if(!intersection_between_object_light || to_light_distance < intersection_between_object_light->distance){
+			if(!intersection_between_object_light || (to_light_distance - 0.000001) < intersection_between_object_light->distance){
 				long double light_normal_dot_product = cgDotProduct(unit_light_vector, normal_vector);
 				if(light_normal_dot_product > 0){
 					long double attenuation_factor = cgAttenuationFactor(&scene.lights[i], to_light_distance);

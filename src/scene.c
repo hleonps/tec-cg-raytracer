@@ -53,7 +53,7 @@ void cgSetEnvironmentLighting(long double intensity){
 	scene.environment_lighting = intensity;
 }
 
-cgIntersection * first_intersection(cgPoint3f camera, cgVector3f ray_direction){
+cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction){
 
 	cgIntersection * intersection = NULL;
 	cgIntersection * temp_intersection = NULL;

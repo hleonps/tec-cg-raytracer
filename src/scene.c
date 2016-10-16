@@ -12,7 +12,7 @@ void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	sphere.type = SPHERE;
 	sphere.color = color;
 	sphere.intersection = &cgSphereIntersection;
-	sphere.normal_vector = &cgSphereNormalVector;
+	sphere.normal_vector = (cgNormalVector) &cgSphereNormalVector;
 	sphere.diffuse_factor = 0.8;
 	sphere.specular_factor = 0.8;
 	sphere.specular_focus = 50;

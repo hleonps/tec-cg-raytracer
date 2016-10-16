@@ -1,5 +1,6 @@
 
 typedef struct cgSphere cgSphere;
+typedef cgVector3f (*cgNormalVectorSphere)(cgPoint3f,void*);
 
 struct cgSphere {
 	long double radius;

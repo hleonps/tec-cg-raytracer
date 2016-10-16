@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "vector.h"
 #include "graphics.h"
 
 cgColor ** framebuffer;
@@ -7,7 +6,7 @@ cgColor ** framebuffer;
 unsigned int framebuffer_h;
 unsigned int framebuffer_v;
 
-void init_framebuffer(unsigned int h, unsigned int v){
+void cgInitFramebuffer(unsigned int h, unsigned int v){
 	framebuffer = (cgColor **) malloc(sizeof(cgColor *) * h);
 	for(int i = 0; i < h; i++){
 		framebuffer[i] = (cgColor *) malloc(sizeof(cgColor) * v);

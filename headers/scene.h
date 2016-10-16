@@ -1,3 +1,4 @@
+#include "light_source.h"
 
 typedef struct cgScene cgScene;
 

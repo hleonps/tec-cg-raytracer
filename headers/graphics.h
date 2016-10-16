@@ -11,4 +11,4 @@ unsigned int framebuffer_v;
 
 cgColor ** framebuffer;
 
-void init_framebuffer(unsigned int h, unsigned int v);
+void cgInitFramebuffer(unsigned int h, unsigned int v);

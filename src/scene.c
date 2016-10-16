@@ -1,18 +1,13 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
-#include "graphics.h"
 #include "vector.h"
-#include "object.h"
-#include "sphere.h"
-#include "light_source.h"
+#include "figures.h"
 #include "scene.h"
 
 cgScene scene = {NULL, 0, NULL, 0, 0};
 
 void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
-	// cgObject * sphere = (cgObject *) malloc(sizeof(cgObject));
 	cgObject sphere;
 	sphere.type = SPHERE;
 	sphere.color = color;

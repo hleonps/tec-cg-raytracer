@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "graphics.h"
 #include "vector.h"
+#include "graphics.h"
 #include "object.h"
 #include "sphere.h"
 
@@ -48,7 +48,7 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 			t_min = t2;
 		}
 	}
-	
+
 	if(t_min > (NO_INTERSECTION_T_VALUE + EPSILON)){
 		intersection = (cgIntersection *) malloc(sizeof(cgIntersection));
 

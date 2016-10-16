@@ -14,8 +14,6 @@
 	(((x) << 8) & 0x00ff0000) | \
 	(((x) >> 8) & 0x0000ff00) | \
 	((x) >> 24) )
-#define FIX(x) (*(unsigned *)&(x) = \
-	SWAP(*(unsigned *)&(x)))
 
 void generate_image(void);
 cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction);

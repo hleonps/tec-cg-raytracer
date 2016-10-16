@@ -56,6 +56,7 @@ int main(int argc, char const *argv[]) {
 	cgAddLightSourceToScene(light_position, 1, 0, 0.01, 0);
 
 	cgGenerateImage();
+	save_image();
 
 	return 0;
 }

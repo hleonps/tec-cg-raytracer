@@ -25,6 +25,16 @@ cgVector3f cgDirectionVector(cgPoint3f origin, cgPoint3f end){
 	return direction_vector;
 }
 
+cgVector3f cgInvertedDirectionVector(cgVector3f direction_vector){
+	cgVector3f inverted_vector = {
+		-direction_vector.x,
+		-direction_vector.y,
+		-direction_vector.z
+	};
+
+	return inverted_vector;
+}
+
 long double cgDotProduct(cgVector3f vectorA, cgVector3f vectorB){
 	return (vectorA.x * vectorB.x) + (vectorA.y * vectorB.y) + (vectorA.z * vectorB.z);
 }

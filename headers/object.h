@@ -16,6 +16,8 @@ struct cgObject {
 	cgIntersectionFunction intersection;
 	cgNormalVector normal_vector;
 	long double diffuse_factor;
+	long double specular_factor;
+	int specular_focus;
 	long double environment_lighting;
 };
 

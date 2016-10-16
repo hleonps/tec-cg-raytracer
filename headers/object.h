@@ -1,6 +1,6 @@
 
 typedef struct cgIntersection * (*cgIntersectionFunction)(cgPoint3f,cgVector3f,void*);
-typedef cgVector3f (*cgNormalVector)(cgPoint3f,void*);
+typedef cgVector3f (*cgNormalVector)(void);
 typedef struct cgObject cgObject;
 typedef struct cgIntersection cgIntersection;
 typedef struct cgObjectList cgObjectList;

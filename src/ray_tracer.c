@@ -35,7 +35,15 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 		long double specular_intensity = 0;
 
 		// Calculate normal vector of current object
-		cgVector3f normal_vector = object.normal_vector(intersection->point, object.data);
+		cgVector3f normal_vector;
+		switch (object.type) {
+			case SPHERE:
+				normal_vector = ((cgNormalVectorSphere) object.normal_vector)(intersection->point, object.data);
+				break;
+			case POLYGON:
+				// normal_vector = ((cgNormalVectorPolygon) object.normal_vector)(object.data);
+				break;
+		}
 
 		for(int i = 0; i < scene.num_lights; i++){
 			// Vector from intersection point to light source

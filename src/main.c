@@ -140,7 +140,7 @@ cgColor pick_color(cgPoint3f camera, cgVector3f ray_direction){
 					if(reflected_dot_product > 0){
 						// Calculate specular value for current light. Accumulate
 						specular_intensity = specular_intensity +
-							(pow((reflected_dot_product * object.specular_factor), object.specular_focus) * attenuated_light);
+							(pow(reflected_dot_product, object.specular_focus) * object.specular_factor * attenuated_light);
 					}
 
 					// Calculate diffuse factor for current light. Accumulate.

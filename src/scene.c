@@ -20,7 +20,7 @@ void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	sphere.normal_vector = &cgSphereNormalVector;
 	sphere.diffuse_factor = 0.8;
 	sphere.specular_factor = 0.8;
-	sphere.specular_focus = 4;
+	sphere.specular_focus = 50;
 	sphere.environment_lighting = 0.2;
 
 	cgSphere * information = (cgSphere *) malloc(sizeof(cgSphere));

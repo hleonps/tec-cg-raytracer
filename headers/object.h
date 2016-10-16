@@ -6,7 +6,8 @@ typedef struct cgIntersection cgIntersection;
 typedef struct cgObjectList cgObjectList;
 
 typedef enum {
-	SPHERE
+	SPHERE,
+	POLYGON
 } cgObjectType;
 
 struct cgObject {

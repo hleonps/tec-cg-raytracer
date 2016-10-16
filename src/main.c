@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
 
 	cgInitFramebuffer(800, 800);
 	cgSetProjectionMatrix(0, 1000, 0, 1000);
-	cgSetCamaraPosition(500, 500, -1000);
+	cgSetCameraPosition(500, 500, -1000);
 
 	cgPoint3f center = {500,500, 500};
 	cgColor red = {1,0,0,1};

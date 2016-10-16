@@ -7,7 +7,6 @@
 #define MIN(X,Y) ((X < Y) ? X : Y)
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction);
 
-
 void cgGenerateImage(){
 	for (int i = 0; i < framebuffer_h; i++) {
 		for (int j = 0; j < framebuffer_v; j++) {
@@ -32,7 +31,7 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 		cgObject object = intersection->object;
 
 		color = object.color;
-		long double diffused_intensity = 0;
+		long double diffuse_intensity = 0;
 		long double specular_intensity = 0;
 
 		// Calculate normal vector of current object
@@ -68,33 +67,32 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 
 					// Calculate the attenuation factor of current light
 					long double attenuation_factor = cgAttenuationFactor(&scene.lights[i], to_light_distance);
-
 					long double attenuated_light = scene.lights[i].intensity * attenuation_factor;
 
 					if(reflected_dot_product > 0){
 						// Calculate specular value for current light. Accumulate
 						specular_intensity = specular_intensity +
-							(pow(reflected_dot_product, object.specular_focus) * object.specular_factor * attenuated_light);
+							cgSpecularIntensity(reflected_dot_product, object.specular_factor, object.specular_focus, attenuated_light);
 					}
 
-					// Calculate diffuse factor for current light. Accumulate.
-					diffused_intensity = diffused_intensity +
-						(light_normal_dot_product * object.diffuse_factor * attenuated_light);
+					// Calculate diffuse value for current light. Accumulate.
+					diffuse_intensity = diffuse_intensity +
+						cgDiffuseIntensity(light_normal_dot_product, object.diffuse_factor, attenuated_light);
 				}
 			}
 		}
 
-		// Add enviroment lightning to diffused intensity
-		diffused_intensity = diffused_intensity + (scene.environment_lighting * object.environment_lighting);
+		// Add enviroment lightning to diffuse intensity
+		diffuse_intensity = diffuse_intensity + (scene.environment_lighting * object.environment_lighting);
 
 		// Values from 0 to 1
-		diffused_intensity = MIN(1.0, diffused_intensity);
+		diffuse_intensity = MIN(1.0, diffuse_intensity);
 		specular_intensity = MIN(1.0, specular_intensity);
 
 		// Applies diffuse intensity to color
-		color.r = diffused_intensity * color.r;
-		color.g = diffused_intensity * color.g;
-		color.b = diffused_intensity * color.b;
+		color.r = diffuse_intensity * color.r;
+		color.g = diffuse_intensity * color.g;
+		color.b = diffuse_intensity * color.b;
 
 		// Applies specular intensity to diffused color
 		color.r = color.r + (specular_intensity * (1.0 - color.r));

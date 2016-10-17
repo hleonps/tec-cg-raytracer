@@ -38,13 +38,20 @@ void cgAddPolygonToScene(cgPoint3f *points, int points_count, cgColor color){
 	polygon.intersection = &cgPolygonIntersection;
 	polygon.normal_vector = (cgNormalVector) &cgPolygonNormalVector;
 	polygon.diffuse_factor = 0.8;
-	polygon.specular_factor = 0.1;
+	polygon.specular_factor = 0.8;
 	polygon.specular_focus = 50;
-	polygon.environment_lighting = 0.3;
+	polygon.environment_lighting = 0.6;
 
 	cgPolygon *information = (cgPolygon *) malloc(sizeof(cgPolygon));
-	information->points_3d = points;
+	information->points_3d = (cgPoint3f *) malloc(sizeof(cgPoint3f) * points_count);
 	information->points_count = points_count;
+
+	for (int i = 0; i < points_count; i++)
+	{
+		information->points_3d[i].x = points[i].x;
+		information->points_3d[i].y = points[i].y;
+		information->points_3d[i].z = points[i].z;
+	}
 
 	/* Generate 2D Points of the polygon */
 	cgVector3f normal_vector = cgPolygonNormalVector(information);
@@ -52,6 +59,7 @@ void cgAddPolygonToScene(cgPoint3f *points, int points_count, cgColor color){
 	long double a = fabsl(normal_vector.x), b = fabsl(normal_vector.y), c = fabsl(normal_vector.z);
 	information->removed_coordinate = X;
 	information->points_2d = (cgPoint2f*)malloc(sizeof(cgPoint2f) * points_count);
+
 	if(b > a){
 		information->removed_coordinate = Y;
 	}
@@ -114,7 +122,6 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 	long double t_min = DBL_MAX;
 
 	for (int i = 0; i < scene.num_objects; i++) {
-
 		temp_intersection = scene.objects[i].intersection(camera, ray_direction, scene.objects[i].data);
 
 		if(temp_intersection && temp_intersection->distance < t_min){
@@ -124,6 +131,6 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 			intersection = temp_intersection;
 		}
 	}
-
+	
 	return intersection;
 }

@@ -9,6 +9,8 @@
 extern const long double EPSILON;
 cgScene scene = {NULL, 0, NULL, 0, 0};
 
+void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color);
+
 void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	cgObject sphere;
 	sphere.type = SPHERE;
@@ -32,7 +34,13 @@ void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	scene.objects[scene.num_objects - 1] = sphere;
 }
 
-void cgAddPolygonToScene(cgPoint3f *points, int points_count, cgColor color){
+void cgAddPolygonToScene(cgPoint3f * points, int points_count, cgColor color){
+	if(points_count > 2){
+		cgAddPolygonToSceneAux(points, points_count, color);
+	}
+}
+
+void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color){
 	cgObject polygon;
 	polygon.type = POLYGON;
 	polygon.color = color;
@@ -59,7 +67,7 @@ void cgAddPolygonToScene(cgPoint3f *points, int points_count, cgColor color){
 
 	long double a = fabsl(normal_vector.x), b = fabsl(normal_vector.y), c = fabsl(normal_vector.z);
 	information->removed_coordinate = X;
-	information->points_2d = (cgPoint2f*)malloc(sizeof(cgPoint2f) * points_count);
+	information->points_2d = (cgPoint2f *) malloc(sizeof(cgPoint2f) * points_count);
 
 	if(b > a){
 		information->removed_coordinate = Y;
@@ -133,6 +141,6 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 			intersection = temp_intersection;
 		}
 	}
-	
+
 	return intersection;
 }

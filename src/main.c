@@ -44,16 +44,17 @@ int main(int argc, char const *argv[]) {
 
 	cgColor color = {1, 1, 0, 1};
 
-	cgPoint3f points[3] = {
-		{.x = 300, .y = 350, .z = 0},
-		{.x = 400, .y = 300, .z = 100},
-		{.x = 500, .y = 350, .z = 0}
+	cgPoint3f points[4] = {
+		{.x = 400, .y = 400, .z = 300},
+		{.x = 500, .y = 400, .z = 0},
+		{.x = 500, .y = 500, .z = 0},
+		{.x = 400, .y = 500, .z = 300}
 	};
 
-	cgAddPolygonToScene(points, 3, color);
+	cgAddPolygonToScene(points, 4, color);
 
 	cgSetEnvironmentLighting(0.4);
-	cgPoint3f light_position = {200, 270, 0};
+	cgPoint3f light_position = {200, 270, 100};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
 
 	light_position.x = 750;

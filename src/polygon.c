@@ -6,8 +6,8 @@
 #include "object.h"
 #include "polygon.h"
 
-int isIntersectionOnPolygon(cgPoint2f intersection, cgPolygon polygon);
-cgPoint2f* moveIntersectionToOrigin(cgPoint2f intersection, int points_count, cgPoint2f* points);
+int cgIsIntersectionInsidePolygon(cgPoint2f intersection, cgPolygon polygon);
+cgPoint2f* cgMoveIntersectionToOrigin(cgPoint2f intersection, int points_count, cgPoint2f* points);
 
 cgVector3f cgPolygonNormalVector(void *information){
 	cgPolygon polygon_information = (*(cgPolygon*) (information));
@@ -34,6 +34,9 @@ cgVector3f cgPolygonNormalVector(void *information){
 
 cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
 	cgPolygon polygon_information = (*(cgPolygon*) (data));
+
+	cgIntersection * intersection = NULL;
+
 	cgPoint3f polygon_point = polygon_information.points_3d[0];
 	cgVector3f normal_vector = cgPolygonNormalVector(data);
 
@@ -41,12 +44,11 @@ cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_directio
 
 	/* Plane equation is required to get D, normal vector is [A, B, C]
 		Ax + By + Cz + D = 0 */
-
 	long double d = -(a * polygon_point.x + b * polygon_point.y + c * polygon_point.z);
 	long double denominator = a * ray_direction.x + b * ray_direction.y + c * ray_direction.z;
 
 	if(denominator == 0){
-		return NULL;
+		return intersection;
 	}
 
 	long double t = -(a * camera.x + b * camera.y + c * camera.z + d)/denominator;
@@ -71,21 +73,18 @@ cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_directio
 		intersection_2d.y = intersection_point.y;
 	}
 
-	if(isIntersectionOnPolygon(intersection_2d, polygon_information)){
-		cgIntersection *intersection = malloc(sizeof(cgIntersection));
+	if(cgIsIntersectionInsidePolygon(intersection_2d, polygon_information)){
+		intersection = malloc(sizeof(cgIntersection));
 		intersection->distance = t;
 		intersection->point = intersection_point;
+	}
 
-		return intersection;
-	}
-	else{
-		return NULL;
-	}
+	return intersection;
 }
 
-int isIntersectionOnPolygon(cgPoint2f intersection, cgPolygon polygon){
+int cgIsIntersectionInsidePolygon(cgPoint2f intersection, cgPolygon polygon){
 	int borders_count = 0;
-	cgPoint2f *moved_points = moveIntersectionToOrigin(intersection, polygon.points_count, polygon.points_2d);
+	cgPoint2f *moved_points = cgMoveIntersectionToOrigin(intersection, polygon.points_count, polygon.points_2d);
 
 	for(int i = 0; i < polygon.points_count; i++){
 		cgPoint2f border_min = moved_points[i];
@@ -131,7 +130,7 @@ int isIntersectionOnPolygon(cgPoint2f intersection, cgPolygon polygon){
 	return borders_count % 2;
 }
 
-cgPoint2f* moveIntersectionToOrigin(cgPoint2f intersection, int points_count, cgPoint2f* points){
+cgPoint2f* cgMoveIntersectionToOrigin(cgPoint2f intersection, int points_count, cgPoint2f* points){
 	cgPoint2f *new_points = (cgPoint2f*) malloc(sizeof(cgPoint2f) * points_count);
 
 	for(int i = 0; i < points_count; i++){

@@ -43,7 +43,7 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 				normal_vector = ((cgNormalVectorSphere) object.normal_vector)(intersection->point, object.data);
 				break;
 			case POLYGON:
-				// normal_vector = ((cgNormalVectorPolygon) object.normal_vector)(object.data);
+				normal_vector = ((cgNormalVectorPolygon) object.normal_vector)(object.data);
 				break;
 		}
 

@@ -5,7 +5,7 @@
 cgPoint3f camera = {0, 0, -1};
 cgProjectionMatrix projection_matrix = {{0,0}, {0, 0}};
 
-void cgSetCamaraPosition(int x, int y, int z){
+void cgSetCameraPosition(int x, int y, int z){
 	camera.x = x;
 	camera.y = y;
 	camera.z = (z < -1) ? z : -1;

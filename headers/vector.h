@@ -16,6 +16,10 @@ typedef struct {
 	long double z;
 } cgVector3f;
 
+typedef enum {
+	X, Y, Z
+} cgCoordinate;
+
 long double cgVectorMagnitude(cgVector3f vector);
 cgVector3f cgNormalizedVector(cgVector3f vector, long double magnitude);
 cgVector3f cgDirectionVector(cgPoint3f origin, cgPoint3f end);

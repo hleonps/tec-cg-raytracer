@@ -6,7 +6,7 @@ typedef struct {
 
 cgPoint3f camera;
 
-void cgSetCamaraPosition(int x, int y, int z);
+void cgSetCameraPosition(int x, int y, int z);
 void cgSetProjectionMatrix(int left, int right, int bottom, int top);
 long double cgMapXFrameToProjectionMatrix(int x);
 long double cgMapYFrameToProjectionMatrix(int y);

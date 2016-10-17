@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
 
 	cgInitFramebuffer(800, 800);
 	cgSetProjectionMatrix(0, 1000, 0, 1000);
-	cgSetCamaraPosition(500, 500, -1000);
+	cgSetCameraPosition(500, 500, -1000);
 
 	cgPoint3f center = {500,500, 500};
 	cgColor red = {1,0,0,1};
@@ -42,8 +42,19 @@ int main(int argc, char const *argv[]) {
 
 	cgAddSphereToScene(center, 50, purple);
 
+	cgColor color = {1, 1, 0, 1};
+
+	cgPoint3f points[4] = {
+		{.x = 400, .y = 400, .z = 300},
+		{.x = 500, .y = 400, .z = 0},
+		{.x = 500, .y = 500, .z = 0},
+		{.x = 400, .y = 500, .z = 300}
+	};
+
+	cgAddPolygonToScene(points, 4, color);
+
 	cgSetEnvironmentLighting(0.4);
-	cgPoint3f light_position = {200, 270, 0};
+	cgPoint3f light_position = {200, 270, 100};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
 
 	light_position.x = 750;

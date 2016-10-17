@@ -85,38 +85,35 @@ cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_directio
 
 int isIntersectionOnPolygon(cgPoint2f intersection, cgPolygon polygon){
 	int borders_count = 0;
-
 	cgPoint2f *moved_points = moveIntersectionToOrigin(intersection, polygon.points_count, polygon.points_2d);
 
 	for(int i = 0; i < polygon.points_count; i++){
 		cgPoint2f border_min = moved_points[i];
-		cgPoint2f border_max;
-		if(i == polygon.points_count - 1){
-			border_max = moved_points[0];
-		}
-		else{
-			border_max = moved_points[i + 1];
-		}
+		cgPoint2f border_max = (i == polygon.points_count - 1) ? moved_points[0] : moved_points[i + 1];
 
 		int both_x_are_positive = border_min.x >= 0 && border_max.x >= 0;
 		int both_x_are_negative = border_min.x < 0 && border_max.x < 0;
 
 		int both_y_are_positive = border_min.y >= 0 && border_max.y >= 0;
 		int both_y_are_negative = border_min.y < 0 && border_max.y < 0;
+
+		int y_are_different = (border_min.y >= 0 && border_max.y < 0) || (border_min.y < 0 && border_max.y >= 0);
+		int x_are_different = (border_min.x >= 0 && border_max.x < 0) || (border_min.x < 0 && border_max.x >= 0);
+
 		/* Trivial reject */
-		if(both_x_are_negative && (both_y_are_negative || both_y_are_positive)){
+		if(both_x_are_negative || both_y_are_negative || both_y_are_positive){
 			continue;
 		}
 
 		/* Trivial accept */
 
-		if(both_x_are_positive && (!both_y_are_positive && !both_y_are_negative)){
+		if(both_x_are_positive && y_are_different){
 			borders_count++;
 			continue;
 		}
 
 		/* Complicated case */
-		if(!both_x_are_positive && !both_x_are_negative && !both_y_are_positive && !both_y_are_negative){
+		if(y_are_different && x_are_different){
 			/* Get Segment equation */
 			long double m = (border_max.y - border_min.y)/(border_max.x - border_min.x);
 			long double b = border_max.y - m * border_max.x;
@@ -126,16 +123,16 @@ int isIntersectionOnPolygon(cgPoint2f intersection, cgPolygon polygon){
 
 			if(x >= 0){
 				borders_count++;
-				continue;
 			}
+
+			continue;
 		}
 	}
-
 	return borders_count % 2;
 }
 
 cgPoint2f* moveIntersectionToOrigin(cgPoint2f intersection, int points_count, cgPoint2f* points){
-	cgPoint2f *new_points = malloc(sizeof(cgPoint2f) * points_count);
+	cgPoint2f *new_points = (cgPoint2f*) malloc(sizeof(cgPoint2f) * points_count);
 
 	for(int i = 0; i < points_count; i++){
 		new_points[i].x = points[i].x - intersection.x;

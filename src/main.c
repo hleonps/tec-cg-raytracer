@@ -42,6 +42,16 @@ int main(int argc, char const *argv[]) {
 
 	cgAddSphereToScene(center, 50, purple);
 
+	cgColor color = {1, 1, 0, 1};
+
+	cgPoint3f points[3] = {
+		{.x = 300, .y = 350, .z = 0},
+		{.x = 400, .y = 300, .z = 100},
+		{.x = 500, .y = 350, .z = 0}
+	};
+
+	cgAddPolygonToScene(points, 3, color);
+
 	cgSetEnvironmentLighting(0.4);
 	cgPoint3f light_position = {200, 270, 0};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);

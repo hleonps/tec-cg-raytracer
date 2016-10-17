@@ -5,6 +5,8 @@
 #include "scene.h"
 
 #define MIN(X,Y) ((X < Y) ? X : Y)
+const long double EPSILON = 0.000002;
+
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction);
 
 void cgGenerateImage(){
@@ -56,7 +58,7 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 			intersection_between_object_light = cgFirstIntersection(intersection->point, unit_light_vector);
 
 			// Check if there is a obstacle. Subtract 0.000001 to light distance to fix black little points in object
-			if(!intersection_between_object_light || (to_light_distance - 0.000001) < intersection_between_object_light->distance){
+			if(!intersection_between_object_light || (to_light_distance - EPSILON) < intersection_between_object_light->distance){
 
 				long double light_normal_dot_product = cgDotProduct(unit_light_vector, normal_vector);
 

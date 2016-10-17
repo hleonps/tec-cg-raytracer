@@ -5,6 +5,7 @@
 #include "figures.h"
 #include "scene.h"
 
+extern const long double EPSILON;
 cgScene scene = {NULL, 0, NULL, 0, 0};
 
 void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
@@ -60,7 +61,8 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 
 		temp_intersection = scene.objects[i].intersection(camera, ray_direction, scene.objects[i].data);
 
-		if(temp_intersection && temp_intersection->distance < t_min){
+		if(temp_intersection && temp_intersection->distance < t_min
+				&& temp_intersection->distance > EPSILON){
 			temp_intersection->object = scene.objects[i];
 			t_min = temp_intersection->distance;
 

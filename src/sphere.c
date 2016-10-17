@@ -9,7 +9,7 @@
 #define MIN(X,Y) ((X < Y) ? X : Y)
 
 const long double NO_INTERSECTION_T_VALUE = -1.000000;
-const long double EPSILON = 0.000002;
+extern const long double EPSILON;
 
 cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
 	cgSphere sphere_information = (*(cgSphere*) (information));

@@ -16,17 +16,10 @@ cgVector3f cgPolygonNormalVector(void *information){
 	cgPoint3f point_b = polygon_information.points_3d[1];
 	cgPoint3f point_c = polygon_information.points_3d[2];
 
-	cgVector3f vector_a;
-	vector_a.x = point_b.x - point_a.x;
-	vector_a.y = point_b.y - point_a.y;
-	vector_a.z = point_b.z - point_a.z;
+	cgVector3f vector_a = cgDirectionVector(point_a, point_b);
+	cgVector3f vector_b = cgDirectionVector(point_a, point_c);
 
-	cgVector3f vector_b;
-	vector_b.x = point_c.x - point_a.x;
-	vector_b.y = point_c.y - point_a.y;
-	vector_b.z = point_c.z - point_a.z;
-
-	cgVector3f normal_vector = cgCrossProduct(vector_a, vector_b);
+	cgVector3f normal_vector = cgCrossProduct(vector_b, vector_a);
 	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
 
 	return unit_vector;

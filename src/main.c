@@ -45,10 +45,10 @@ int main(int argc, char const *argv[]) {
 	cgColor color = {1, 1, 0, 1};
 
 	cgPoint3f points[4] = {
-		{.x = 400, .y = 400, .z = 300},
-		{.x = 500, .y = 400, .z = 0},
-		{.x = 500, .y = 500, .z = 0},
-		{.x = 400, .y = 500, .z = 300}
+		{.x = 100, .y = 750, .z = 2000},
+		{.x = 1000, .y = 750, .z = 2000},
+		{.x = 1000, .y = 800, .z = 200},
+		{.x = 0, .y = 800, .z = 200}
 	};
 
 	cgAddPolygonToScene(points, 4, color);

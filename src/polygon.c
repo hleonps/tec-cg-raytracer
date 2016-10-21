@@ -19,7 +19,7 @@ cgVector3f cgPolygonNormalVector(void *information){
 	cgVector3f vector_a = cgDirectionVector(point_a, point_b);
 	cgVector3f vector_b = cgDirectionVector(point_a, point_c);
 
-	cgVector3f normal_vector = cgCrossProduct(vector_b, vector_a);
+	cgVector3f normal_vector = cgCrossProduct(vector_a, vector_b);
 	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
 
 	return unit_vector;

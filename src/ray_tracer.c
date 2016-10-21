@@ -47,6 +47,10 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 				break;
 		}
 
+		if(cgDotProduct(ray_direction, normal_vector) > 0){
+			normal_vector = cgInvertedDirectionVector(normal_vector);
+		}
+
 		for(int i = 0; i < scene.num_lights; i++){
 			// Vector from intersection point to light source
 			cgVector3f to_light_vector = cgDirectionVector(intersection->point, scene.lights[i].position);

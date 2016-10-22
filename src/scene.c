@@ -54,6 +54,7 @@ void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color)
 	cgPolygon *information = (cgPolygon *) malloc(sizeof(cgPolygon));
 	information->points_3d = (cgPoint3f *) malloc(sizeof(cgPoint3f) * points_count);
 	information->points_count = points_count;
+	information->normal_vector = NULL;
 
 	for (int i = 0; i < points_count; i++)
 	{

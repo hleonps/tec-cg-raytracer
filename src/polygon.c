@@ -12,6 +12,11 @@ cgPoint2f* cgMoveIntersectionToOrigin(cgPoint2f intersection, int points_count, 
 cgVector3f cgPolygonNormalVector(void *information){
 	cgPolygon polygon_information = (*(cgPolygon*) (information));
 
+	// If it was calculated before, use the stored vector
+	if(polygon_information.normal_vector != NULL){
+		return *polygon_information.normal_vector;
+	}
+
 	cgPoint3f point_a = polygon_information.points_3d[0];
 	cgPoint3f point_b = polygon_information.points_3d[1];
 	cgPoint3f point_c = polygon_information.points_3d[2];
@@ -21,6 +26,12 @@ cgVector3f cgPolygonNormalVector(void *information){
 
 	cgVector3f normal_vector = cgCrossProduct(vector_a, vector_b);
 	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
+
+	// Optimization. Store normal vector
+	((cgPolygon *) information)->normal_vector = (cgVector3f *) malloc(sizeof(cgVector3f));
+	((cgPolygon *) information)->normal_vector->x = unit_vector.x;
+	((cgPolygon *) information)->normal_vector->y = unit_vector.y;
+	((cgPolygon *) information)->normal_vector->z = unit_vector.z;
 
 	return unit_vector;
 }

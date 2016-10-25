@@ -6,6 +6,8 @@ struct cgCylinder{
 	long double radius;
 	cgVector3f direction;
 	cgPoint3f anchor;
+	long double distance_a;
+	long double distance_b;
 };
 
 cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction, void * information);

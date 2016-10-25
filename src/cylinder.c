@@ -5,7 +5,10 @@
 #include "object.h"
 #include "cylinder.h"
 
+int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information);
+
 #define MIN(X,Y) ((X < Y) ? X : Y)
+#define MAX(X,Y) ((X > Y) ? X : Y)
 
 extern const long double EPSILON;
 extern const long double NO_INTERSECTION_T_VALUE;
@@ -40,7 +43,10 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		- powl(cylinder_information.radius, 2);
 
 	long double discriminant = (beta * beta) - (4 * alpha * delta);
-	long double t_min = NO_INTERSECTION_T_VALUE;
+	long double t = NO_INTERSECTION_T_VALUE;
+	long double first_t = NO_INTERSECTION_T_VALUE;
+	long double second_t = NO_INTERSECTION_T_VALUE;
+	cgPoint3f point_t;
 
 	if(discriminant > EPSILON){
 		long double discriminant_root = sqrtl(discriminant);
@@ -48,28 +54,68 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		long double t2 = ((long double) -beta - discriminant_root) / (2 * alpha);
 
 		if(t1 > EPSILON && t2 > EPSILON) {
-			t_min = MIN(t1, t2);
+			first_t = MIN(t1, t2);
+			second_t = MAX(t1, t2);
 		}
 		else if(t1 > EPSILON){
-			t_min = t1;
+			first_t = t1;
 		}
 		else if(t2 > EPSILON){
-			t_min = t2;
+			first_t = t2;
 		}
 	}
 
-	if(t_min > (NO_INTERSECTION_T_VALUE + EPSILON)){
+	cgPoint3f first_point = {
+		eye.x + (first_t * ray_direction.x),
+		eye.y + (first_t * ray_direction.y),
+		eye.z + (first_t * ray_direction.z)
+	};
+
+	cgPoint3f second_point = {
+		eye.x + (second_t * ray_direction.x),
+		eye.y + (second_t * ray_direction.y),
+		eye.z + (second_t * ray_direction.z)
+	};
+
+	if(first_t > EPSILON && cgIsInsideFiniteCylinder(first_point, cylinder_information)){
+		t = first_t;
+		point_t = first_point;
+	}
+	else if(cgIsInsideFiniteCylinder(second_point, cylinder_information)){
+		t = second_t;
+		point_t = second_point;
+	}
+
+	if(t > (NO_INTERSECTION_T_VALUE + EPSILON)){
 		intersection = (cgIntersection *) malloc(sizeof(cgIntersection));
 
-		intersection->distance = t_min;
+		intersection->distance = t;
 
-		cgPoint3f intersection_point = {eye.x + (t_min * ray_direction.x),
-			eye.y + (t_min * ray_direction.y), eye.z + (t_min * ray_direction.z)};
+		cgPoint3f intersection_point = point_t;
 
 		intersection->point = intersection_point;
 	}
 
 	return intersection;
+}
+
+int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information){
+	cgPoint3f anchor = information.anchor;
+	cgVector3f direction = information.direction;
+
+	cgVector3f h = cgDirectionVector(anchor, intersection_point);
+	long double distance_m = cgDotProduct(h, direction);
+
+	long double d_min, d_max;
+
+	d_min = MIN(information.distance_a, information.distance_b);
+	d_max = MAX(information.distance_a, information.distance_b);
+
+	if(d_min <= distance_m && distance_m <= d_max){
+		return 1;
+	}
+
+	return 0;
 }
 
 cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){

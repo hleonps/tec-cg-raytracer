@@ -104,7 +104,9 @@ void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color)
 	scene.objects[scene.num_objects - 1] = polygon;
 }
 
-void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double radius, cgColor color){
+void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double radius,
+		long double distance_a, long double distance_b, cgColor color){
+
 	cgObject cylinder;
 	cylinder.type = CYLINDER;
 	cylinder.color = color;
@@ -118,10 +120,12 @@ void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double ra
 	cgCylinder * information = (cgCylinder *) malloc(sizeof(cgCylinder));
 	information->anchor = anchor;
 
-	// Vector Q (Direction) is a unit vector.
+	// Vector Q (Direction) is an unit vector.
 	cgVector3f unit_direction = cgNormalizedVector(direction, cgVectorMagnitude(direction));
 	information->direction = unit_direction;
 	information->radius = radius;
+	information->distance_a = distance_a;
+	information->distance_b = distance_b;
 
 	cylinder.data = (void *) information;
 

@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
 	cgSetProjectionMatrix(0, 1000, 0, 1000);
 	cgSetCameraPosition(500, 500, -1000);
 
-	cgPoint3f center = {300,200, 300};
+	cgPoint3f center = {500,500, 500};
 	cgColor red = {1,0,0,1};
 	cgAddSphereToScene(center, 200, red);
 
@@ -55,8 +55,8 @@ int main(int argc, char const *argv[]) {
 
 	center.x = 300;
 	center.y = 200;
-	center.z = 300;
-	cgVector3f direction = {100, 0, 1000};
+	center.z = 500;
+	cgVector3f direction = {100, 0, 0};
 	cgAddCylinderToScene(center, direction, 150, red);
 
 	cgSetEnvironmentLighting(0.4);

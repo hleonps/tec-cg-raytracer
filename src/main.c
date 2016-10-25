@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]) {
 	center.y = 200;
 	center.z = 300;
 	cgVector3f direction = {100, 0, 1000};
-	cgAddCylinderToScene(center, unit_direction, 150, red);
+	cgAddCylinderToScene(center, direction, 150, red);
 
 	cgSetEnvironmentLighting(0.4);
 	cgPoint3f light_position = {200, 270, 100};

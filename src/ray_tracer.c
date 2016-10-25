@@ -6,6 +6,7 @@
 
 #define MIN(X,Y) ((X < Y) ? X : Y)
 const long double EPSILON = 0.000002;
+const long double NO_INTERSECTION_T_VALUE = -1.000000;
 
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction);
 
@@ -44,6 +45,9 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 				break;
 			case POLYGON:
 				normal_vector = ((cgNormalVectorPolygon) object.normal_vector)(object.data);
+				break;
+			case CYLINDER:
+				normal_vector = ((cgNormalVectorCylinder) object.normal_vector)(intersection->point, object.data);
 				break;
 		}
 

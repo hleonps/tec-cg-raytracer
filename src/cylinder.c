@@ -73,7 +73,28 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 }
 
 cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
-	cgVector3f unit_vector = {0,0,0};
+	cgCylinder cylinder_information = (*(cgCylinder*) (information));
+
+	cgPoint3f anchor = cylinder_information.anchor;
+	cgVector3f direction = cylinder_information.direction;
+	long double radius = cylinder_information.radius;
+
+	cgVector3f h = cgDirectionVector(anchor, point);
+	long double distance_m = cgDotProduct(h, direction);
+
+	cgPoint3f point_m = {
+		anchor.x + (distance_m * direction.x),
+		anchor.y + (distance_m * direction.y),
+		anchor.z + (distance_m * direction.z)
+	};
+
+	cgVector3f normal_vector = {
+		(point.x - point_m.x)/radius,
+		(point.y - point_m.y)/radius,
+		(point.z - point_m.z)/radius
+	};
+
+	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
 
 	return unit_vector;
 }

@@ -31,11 +31,6 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		* ( (anchor.z - eye.z) * (1 - powl(vector_q.z, 2)) + vector_q.z
 		* (vector_q.x * (eye.x - anchor.x) + vector_q.y * (eye.y - anchor.y) ) ) ) );
 
-
-	// t*2[[xq(xd*xq + yd*yq + zd*zq) - xd][(x0 - xe)(1 - xq^2) + xq[yq(ye - y0) + zq(ze - z0)]] +
-	// [yq(xd*xq + yd*yq + zd*zq) - yd][(y0 - ye)(1 - yq^2) + yq[zq(xe - x0) + zq(ze - z0)]] +
-	// [zq(xd*xq + yd*yq + zd*zq) - zd][(z0 - ze)(1 - zq^2) + zq[xq(xe - x0) + yq(ye - y0)]]] +
-
 	long double delta = powl((anchor.x - eye.x) * (1 - powl(vector_q.x, 2))
  		+ vector_q.x * ((eye.y * vector_q.y) - (anchor.y * vector_q.y) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
 		+ powl((anchor.y - eye.y) * (1 - powl(vector_q.y, 2))
@@ -78,7 +73,7 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 }
 
 cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
-	cgVector3f unit_vector = {-1,-1,-1};
+	cgVector3f unit_vector = {0,0,0};
 
 	return unit_vector;
 }

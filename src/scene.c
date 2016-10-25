@@ -117,7 +117,10 @@ void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double ra
 
 	cgCylinder * information = (cgCylinder *) malloc(sizeof(cgCylinder));
 	information->anchor = anchor;
-	information->direction = direction;
+
+	// Vector Q (Direction) is a unit vector.
+	cgVector3f unit_direction = cgNormalizedVector(direction, cgVectorMagnitude(direction));
+	information->direction = unit_direction;
 	information->radius = radius;
 
 	cylinder.data = (void *) information;

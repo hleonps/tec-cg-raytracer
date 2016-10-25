@@ -6,10 +6,10 @@
 #include "figures.h"
 #include "scene.h"
 
+void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color);
+
 extern const long double EPSILON;
 cgScene scene = {NULL, 0, NULL, 0, 0};
-
-void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color);
 
 void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	cgObject sphere;
@@ -103,6 +103,37 @@ void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color)
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
 	scene.objects[scene.num_objects - 1] = polygon;
+}
+
+void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double radius,
+		long double distance_a, long double distance_b, cgColor color){
+
+	cgObject cylinder;
+	cylinder.type = CYLINDER;
+	cylinder.color = color;
+	cylinder.intersection = &cgCylinderIntersection;
+	cylinder.normal_vector = (cgNormalVector) &cgCylinderNormalVector;
+	cylinder.diffuse_factor = 0.8;
+	cylinder.specular_factor = 0.8;
+	cylinder.specular_focus = 50;
+	cylinder.environment_lighting = 0.2;
+
+	cgCylinder * information = (cgCylinder *) malloc(sizeof(cgCylinder));
+	information->anchor = anchor;
+
+	// Vector Q (Direction) is an unit vector.
+	cgVector3f unit_direction = cgNormalizedVector(direction, cgVectorMagnitude(direction));
+	information->direction = unit_direction;
+	information->radius = radius;
+	information->distance_a = distance_a;
+	information->distance_b = distance_b;
+
+	cylinder.data = (void *) information;
+
+	scene.num_objects++;
+
+	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
+	scene.objects[scene.num_objects - 1] = cylinder;
 }
 
 void cgAddLightSourceToScene(cgPoint3f position, long double intensity, long double c1, long double c2, long double c3){

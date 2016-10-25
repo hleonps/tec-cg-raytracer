@@ -53,6 +53,16 @@ int main(int argc, char const *argv[]) {
 
 	cgAddPolygonToScene(points, 4, color);
 
+	center.x = 700;
+	center.y = 150;
+	center.z = 450;
+
+	color.r = 0;
+	color.g = 1;
+	color.b = 1;
+	cgVector3f direction = {100, 0, 100};
+	cgAddCylinderToScene(center, direction, 150, -200, 100, color);
+
 	cgSetEnvironmentLighting(0.4);
 	cgPoint3f light_position = {200, 270, 100};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);

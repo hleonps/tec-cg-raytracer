@@ -21,6 +21,8 @@ struct cgObject {
 	long double specular_factor;
 	int specular_focus;
 	long double environment_lighting;
+	long double reflection_factor;
+	long double transparency_factor;
 };
 
 struct cgIntersection{

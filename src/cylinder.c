@@ -81,7 +81,7 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		t = first_t;
 		point_t = first_point;
 	}
-	else if(cgIsInsideFiniteCylinder(second_point, cylinder_information)){
+	else if(second_t > EPSILON && cgIsInsideFiniteCylinder(second_point, cylinder_information)){
 		t = second_t;
 		point_t = second_point;
 	}

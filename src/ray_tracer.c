@@ -7,8 +7,9 @@
 #define MIN(X,Y) ((X < Y) ? X : Y)
 const long double EPSILON = 0.000002;
 const long double NO_INTERSECTION_T_VALUE = -1.000000;
+const unsigned int MAX_REFLECTION_LEVEL = 1;
 
-cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction);
+cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level);
 
 void cgGenerateImage(){
 	for (int i = 0; i < framebuffer_h; i++) {
@@ -18,12 +19,12 @@ void cgGenerateImage(){
 			cgVector3f ray_vector = cgDirectionVector(camera, window_point);
 			cgVector3f unit_ray_vector = cgNormalizedVector(ray_vector, cgVectorMagnitude(ray_vector));
 
-			framebuffer[i][j] = cgPickColor(camera, unit_ray_vector);
+			framebuffer[i][j] = cgPickColor(camera, unit_ray_vector, MAX_REFLECTION_LEVEL);
 		}
 	}
 }
 
-cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
+cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level){
 	cgColor color = {0.3, 0.3, 0.3, 1};
 	cgIntersection * intersection;
 	cgIntersection * intersection_between_object_light;
@@ -116,6 +117,27 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction){
 		color.r = color.r + (specular_intensity * (1.0 - color.r));
 		color.g = color.g + (specular_intensity * (1.0 - color.g));
 		color.b = color.b + (specular_intensity * (1.0 - color.b));
+
+		if(reflexion_level > 0){
+			cgVector3f to_anchor_vector = cgInvertedDirectionVector(ray_direction);
+			cgVector3f to_anchor_unit_vector = cgNormalizedVector(to_anchor_vector, cgVectorMagnitude(to_anchor_vector));
+
+			long double anchor_normal_dot_product = cgDotProduct(normal_vector, to_anchor_unit_vector);
+
+			cgVector3f to_anchor_reflected_ray = {
+				2 * (normal_vector.x * anchor_normal_dot_product) - to_anchor_unit_vector.x,
+				2 * (normal_vector.y * anchor_normal_dot_product) - to_anchor_unit_vector.y,
+				2 * (normal_vector.z * anchor_normal_dot_product) - to_anchor_unit_vector.z
+			};
+
+			cgColor reflected_color = cgPickColor(intersection->point, to_anchor_reflected_ray, reflexion_level - 1);
+
+			long double object_color_factor = 1.0 - object.reflection_factor - object.transparency_factor;
+
+			color.r = (object_color_factor * color.r) + (object.reflection_factor * reflected_color.r);
+			color.g = (object_color_factor * color.g) + (object.reflection_factor * reflected_color.g);
+			color.b = (object_color_factor * color.b) + (object.reflection_factor * reflected_color.b);
+		}
 	}
 
 	return color;

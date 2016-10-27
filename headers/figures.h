@@ -3,3 +3,4 @@
 #include "sphere.h"
 #include "polygon.h"
 #include "cylinder.h"
+#include "cone.h"

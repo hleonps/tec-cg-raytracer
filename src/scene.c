@@ -21,6 +21,8 @@ void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
 	sphere.specular_factor = 0.8;
 	sphere.specular_focus = 50;
 	sphere.environment_lighting = 0.2;
+	sphere.transparency_factor = 0;
+	sphere.reflection_factor = 0.2;
 
 	cgSphere * information = (cgSphere *) malloc(sizeof(cgSphere));
 	information->radius = radius;
@@ -50,6 +52,8 @@ void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color)
 	polygon.specular_factor = 0.8;
 	polygon.specular_focus = 50;
 	polygon.environment_lighting = 0.6;
+	polygon.transparency_factor = 0;
+	polygon.reflection_factor = 0;
 
 	cgPolygon *information = (cgPolygon *) malloc(sizeof(cgPolygon));
 	information->points_3d = (cgPoint3f *) malloc(sizeof(cgPoint3f) * points_count);
@@ -117,6 +121,8 @@ void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double ra
 	cylinder.specular_factor = 0.8;
 	cylinder.specular_focus = 50;
 	cylinder.environment_lighting = 0.2;
+	cylinder.transparency_factor = 0;
+	cylinder.reflection_factor = 0;
 
 	cgCylinder * information = (cgCylinder *) malloc(sizeof(cgCylinder));
 	information->anchor = anchor;

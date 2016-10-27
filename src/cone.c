@@ -3,9 +3,9 @@
 #include "vector.h"
 #include "graphics.h"
 #include "object.h"
-#include "cylinder.h"
+#include "cone.h"
 
-int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information);
+int cgIsInsideFiniteCone(cgPoint3f intersection_point, cgCone information);
 
 #define MIN(X,Y) ((X < Y) ? X : Y)
 #define MAX(X,Y) ((X > Y) ? X : Y)
@@ -13,15 +13,18 @@ int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder informatio
 extern const long double EPSILON;
 extern const long double NO_INTERSECTION_T_VALUE;
 
-cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction, void * information){
-	cgCylinder cylinder_information = (*(cgCylinder*) (information));
+cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, void * information){
+	cgCone cone_information = (*(cgCone*) (information));
 	cgIntersection * intersection = NULL;
 
-	cgVector3f vector_q = cylinder_information.direction;
-	cgPoint3f anchor = cylinder_information.anchor;
+	cgVector3f vector_q = cone_information.direction;
+	cgPoint3f anchor = cone_information.anchor;
+	long double radius_k = cone_information.radius_k;
+	long double distance_k = cone_information.distance_k;
 
 	long double alpha = (cgDotProduct(vector_q, vector_q) - 2) * powl(cgDotProduct(vector_q, ray_direction), 2)
-		+ powl(ray_direction.x, 2) + powl(ray_direction.y, 2) + powl(ray_direction.z, 2);
+		+ powl(ray_direction.x, 2) + powl(ray_direction.y, 2) + powl(ray_direction.z, 2)
+		- powl((radius_k / distance_k) * cgDotProduct(ray_direction, vector_q),2 );
 
 	long double beta = 2
 		* ( ( (vector_q.x * cgDotProduct(ray_direction, vector_q) - ray_direction.x)
@@ -32,7 +35,10 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		* (vector_q.x * (eye.x - anchor.x) + vector_q.z * (eye.z - anchor.z) ) ) )
 		+ ( (vector_q.z * cgDotProduct(vector_q, ray_direction) - ray_direction.z)
 		* ( (anchor.z - eye.z) * (1 - powl(vector_q.z, 2)) + vector_q.z
-		* (vector_q.x * (eye.x - anchor.x) + vector_q.y * (eye.y - anchor.y) ) ) ) );
+		* (vector_q.x * (eye.x - anchor.x) + vector_q.y * (eye.y - anchor.y) ) ) )
+	 	- (powl(radius_k / distance_k, 2) * cgDotProduct(ray_direction, vector_q)
+		* ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)
+	 	+ (eye.z * vector_q.z) - (anchor.z * vector_q.z) ) ) );
 
 	long double delta = powl((anchor.x - eye.x) * (1 - powl(vector_q.x, 2))
  		+ vector_q.x * ((eye.y * vector_q.y) - (anchor.y * vector_q.y) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
@@ -40,7 +46,8 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 	 	+ vector_q.y * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
 		+ powl((anchor.z - eye.z) * (1 - powl(vector_q.z, 2))
 	 	+ vector_q.z * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)), 2)
-		- powl(cylinder_information.radius, 2);
+		- powl((radius_k / distance_k) * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)
+	 	+ (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2);
 
 	long double discriminant = (beta * beta) - (4 * alpha * delta);
 	long double t = NO_INTERSECTION_T_VALUE;
@@ -77,11 +84,11 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 		eye.z + (second_t * ray_direction.z)
 	};
 
-	if(first_t > EPSILON && cgIsInsideFiniteCylinder(first_point, cylinder_information)){
+	if(first_t > EPSILON && cgIsInsideFiniteCone(first_point, cone_information)){
 		t = first_t;
 		point_t = first_point;
 	}
-	else if(second_t > EPSILON && cgIsInsideFiniteCylinder(second_point, cylinder_information)){
+	else if(second_t > EPSILON && cgIsInsideFiniteCone(second_point, cone_information)){
 		t = second_t;
 		point_t = second_point;
 	}
@@ -99,7 +106,7 @@ cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction,
 	return intersection;
 }
 
-int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information){
+int cgIsInsideFiniteCone(cgPoint3f intersection_point, cgCone information){
 	cgPoint3f anchor = information.anchor;
 	cgVector3f direction = information.direction;
 
@@ -118,12 +125,11 @@ int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder informatio
 	return 0;
 }
 
-cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
-	cgCylinder cylinder_information = (*(cgCylinder*) (information));
+cgVector3f cgConeNormalVector(cgPoint3f point, void * information){
+	cgCone cone_information = (*(cgCone*) (information));
 
-	cgPoint3f anchor = cylinder_information.anchor;
-	cgVector3f direction = cylinder_information.direction;
-	long double radius = cylinder_information.radius;
+	cgPoint3f anchor = cone_information.anchor;
+	cgVector3f direction = cone_information.direction;
 
 	cgVector3f h = cgDirectionVector(anchor, point);
 	long double distance_m = cgDotProduct(h, direction);
@@ -134,11 +140,8 @@ cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
 		anchor.z + (distance_m * direction.z)
 	};
 
-	cgVector3f normal_vector = {
-		(point.x - point_m.x)/radius,
-		(point.y - point_m.y)/radius,
-		(point.z - point_m.z)/radius
-	};
+	cgVector3f normal_vector = cgDirectionVector(point_m, point);
+	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
 
-	return normal_vector;
+	return unit_vector;
 }

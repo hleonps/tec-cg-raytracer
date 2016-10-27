@@ -140,7 +140,5 @@ cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
 		(point.z - point_m.z)/radius
 	};
 
-	cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
-
-	return unit_vector;
+	return normal_vector;
 }

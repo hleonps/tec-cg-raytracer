@@ -8,7 +8,8 @@ typedef struct cgObjectList cgObjectList;
 typedef enum {
 	SPHERE,
 	POLYGON,
-	CYLINDER
+	CYLINDER,
+	CONE
 } cgObjectType;
 
 struct cgObject {

@@ -142,6 +142,40 @@ void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double ra
 	scene.objects[scene.num_objects - 1] = cylinder;
 }
 
+void cgAddConeToScene(cgPoint3f anchor, cgVector3f direction, long double radius_k, long double distance_k,
+		long double distance_a, long double distance_b, cgColor color){
+
+	cgObject cone;
+	cone.type = CONE;
+	cone.color = color;
+	cone.intersection = &cgConeIntersection;
+	cone.normal_vector = (cgNormalVector) &cgConeNormalVector;
+	cone.diffuse_factor = 0.8;
+	cone.specular_factor = 0.8;
+	cone.specular_focus = 50;
+	cone.environment_lighting = 0.2;
+	cone.transparency_factor = 0;
+	cone.reflection_factor = 0;
+
+	cgCone * information = (cgCone *) malloc(sizeof(cgCone));
+	information->anchor = anchor;
+
+	// Vector Q (Direction) is an unit vector.
+	cgVector3f unit_direction = cgNormalizedVector(direction, cgVectorMagnitude(direction));
+	information->direction = unit_direction;
+	information->radius_k = radius_k;
+	information->distance_k = distance_k;
+	information->distance_a = distance_a;
+	information->distance_b = distance_b;
+
+	cone.data = (void *) information;
+
+	scene.num_objects++;
+
+	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
+	scene.objects[scene.num_objects - 1] = cone;
+}
+
 void cgAddLightSourceToScene(cgPoint3f position, long double intensity, long double c1, long double c2, long double c3){
 	cgLight light_source;
 

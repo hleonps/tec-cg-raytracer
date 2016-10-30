@@ -24,7 +24,7 @@ cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, voi
 
 	long double alpha = (cgDotProduct(vector_q, vector_q) - 2) * powl(cgDotProduct(vector_q, ray_direction), 2)
 		+ powl(ray_direction.x, 2) + powl(ray_direction.y, 2) + powl(ray_direction.z, 2)
-		- powl((radius_k / distance_k) * cgDotProduct(ray_direction, vector_q),2 );
+		- powl((radius_k / distance_k) * cgDotProduct(ray_direction, vector_q), 2);
 
 	long double beta = 2
 		* ( ( (vector_q.x * cgDotProduct(ray_direction, vector_q) - ray_direction.x)
@@ -37,8 +37,8 @@ cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, voi
 		* ( (anchor.z - eye.z) * (1 - powl(vector_q.z, 2)) + vector_q.z
 		* (vector_q.x * (eye.x - anchor.x) + vector_q.y * (eye.y - anchor.y) ) ) )
 	 	- (powl(radius_k / distance_k, 2) * cgDotProduct(ray_direction, vector_q)
-		* ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)
-	 	+ (eye.z * vector_q.z) - (anchor.z * vector_q.z) ) ) );
+		* ((eye.x * vector_q.x) + (eye.y * vector_q.y) + (eye.z * vector_q.z) - ((anchor.x * vector_q.x) + (anchor.y * vector_q.y)
+	 	+ (anchor.z * vector_q.z)) ) ) );
 
 	long double delta = powl((anchor.x - eye.x) * (1 - powl(vector_q.x, 2))
  		+ vector_q.x * ((eye.y * vector_q.y) - (anchor.y * vector_q.y) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
@@ -46,8 +46,8 @@ cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, voi
 	 	+ vector_q.y * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
 		+ powl((anchor.z - eye.z) * (1 - powl(vector_q.z, 2))
 	 	+ vector_q.z * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)), 2)
-		- powl((radius_k / distance_k) * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)
-	 	+ (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2);
+		- powl((radius_k / distance_k) * ((eye.x * vector_q.x) + (eye.y * vector_q.y) + (eye.z * vector_q.z) - ((anchor.x * vector_q.x) + (anchor.y * vector_q.y)
+	 	+ (anchor.z * vector_q.z)) ), 2);
 
 	long double discriminant = (beta * beta) - (4 * alpha * delta);
 	long double t = NO_INTERSECTION_T_VALUE;

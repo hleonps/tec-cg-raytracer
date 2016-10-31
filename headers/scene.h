@@ -12,7 +12,7 @@ struct cgScene {
 
 cgScene scene;
 
-void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color);
+void cgAddSphereToScene(cgObject sphere);
 void cgAddPolygonToScene(cgPoint3f * points, int points_count, cgColor color);
 void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double radius, long double distance_a, long double distance_b, cgColor color);
 void cgAddConeToScene(cgPoint3f anchor, cgVector3f direction, long double radius_k, long double distance_k, long double distance_a, long double distance_b, cgColor color);

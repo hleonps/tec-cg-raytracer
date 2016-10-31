@@ -11,25 +11,7 @@ void cgAddPolygonToSceneAux(cgPoint3f * points, int points_count, cgColor color)
 extern const long double EPSILON;
 cgScene scene = {NULL, 0, NULL, 0, 0};
 
-void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color){
-	cgObject sphere;
-	sphere.type = SPHERE;
-	sphere.color = color;
-	sphere.intersection = &cgSphereIntersection;
-	sphere.normal_vector = (cgNormalVector) &cgSphereNormalVector;
-	sphere.diffuse_factor = 0.8;
-	sphere.specular_factor = 0.8;
-	sphere.specular_focus = 50;
-	sphere.environment_lighting = 0.2;
-	sphere.transparency_factor = 0;
-	sphere.reflection_factor = 0.2;
-
-	cgSphere * information = (cgSphere *) malloc(sizeof(cgSphere));
-	information->radius = radius;
-	information->center = center;
-
-	sphere.data = (void *) information;
-
+void cgAddSphereToScene(cgObject sphere){
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);

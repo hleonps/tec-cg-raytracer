@@ -1,0 +1,66 @@
+#defscene
+	camera 500,500,-1000
+	projection-matrix 0,1000,0,1000
+	environment-lighting 0.4
+	resolution 800,800
+#enddef
+
+#defsphere
+	center 500,500,500
+	radius 200
+	color 1,0,0
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.2
+	transparency-factor 0
+	reflection-factor 0.2
+#enddef
+
+#defsphere
+	center 200,500,800
+	radius 250
+	color 0,0,1
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.2
+	transparency-factor 0
+	reflection-factor 0.2
+#enddef
+
+#defsphere
+	center 700,600,200
+	radius 150
+	color 0,1,0
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.2
+	transparency-factor 0
+	reflection-factor 0.2
+#enddef
+
+#defsphere
+	center 500,200,350
+	radius 50
+	color 1,0,1
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.2
+	transparency-factor 0
+	reflection-factor 0.2
+#enddef
+
+#defpolygon
+	color 1,1,0
+	points-count 4
+	points 100,750,2000 1000,750,2000 1000,800,200 0,800,200
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.6
+	transparency-factor 0
+	reflection-factor 0
+#enddef

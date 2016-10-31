@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "cg_raytracer.h"
+#include "parser.h"
 
 #define SWAP(x) ( ((x) << 24) | \
 	(((x) << 8) & 0x00ff0000) | \
@@ -13,34 +14,15 @@ const char* FILE_NAME = "scene.avs";
 
 int main(int argc, char const *argv[]) {
 
-	cgInitFramebuffer(800, 800);
-	cgSetProjectionMatrix(0, 1000, 0, 1000);
-	cgSetCameraPosition(500, 500, -1000);
-
-	cgPoint3f center = {500,500, 500};
-	cgColor red = {1,0,0,1};
-	cgAddSphereToScene(center, 200, red);
-
-	center.x = 200;
-	center.y = 500;
-	center.z = 800;
-
-	cgColor blue = {0,0,1,1};
-	cgAddSphereToScene(center, 150, blue);
-
-	cgColor green = {0,1,0,1};
-	center.x = 700;
-	center.y = 600;
-	center.z = 200;
-
-	cgAddSphereToScene(center, 150, green);
-
-	cgColor purple = {1,0,1,1};
-	center.x = 500;
-	center.y = 200;
-	center.z = 350;
-
-	cgAddSphereToScene(center, 50, purple);
+	if (argc == 1){
+		printf("No file available\n");
+		return -1;
+	}
+	else{
+		FILE *fp = fopen(argv[1], "r");
+		parser_init(fp);
+		fclose(fp);
+	}
 
 	cgColor color = {1, 1, 0, 1};
 
@@ -53,9 +35,7 @@ int main(int argc, char const *argv[]) {
 
 	cgAddPolygonToScene(points, 4, color);
 
-	center.x = 700;
-	center.y = 150;
-	center.z = 450;
+	cgPoint3f center = {.x = 700, .y = 150, .z = 450};
 
 	color.r = 0;
 	color.g = 1;
@@ -72,7 +52,6 @@ int main(int argc, char const *argv[]) {
 	direction.z = 100;
 	cgAddConeToScene(center, direction, 50, 100, 0, 200, color);
 
-	cgSetEnvironmentLighting(0.4);
 	cgPoint3f light_position = {200, 270, 100};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
 
@@ -84,7 +63,7 @@ int main(int argc, char const *argv[]) {
 	light_position.y = 100;
 	light_position.z = 300;
 	cgAddLightSourceToScene(light_position, 1, 0, 0.01, 0);
-
+	
 	cgGenerateImage();
 	save_image();
 

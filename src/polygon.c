@@ -109,7 +109,6 @@ int cgIsIntersectionInsidePolygon(cgPoint2f intersection, cgPolygon polygon){
 		}
 
 		/* Trivial accept */
-
 		if(both_x_are_positive && y_are_different){
 			borders_count++;
 			continue;
@@ -131,6 +130,9 @@ int cgIsIntersectionInsidePolygon(cgPoint2f intersection, cgPolygon polygon){
 			continue;
 		}
 	}
+
+	free(moved_points);
+
 	return borders_count % 2;
 }
 

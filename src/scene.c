@@ -210,7 +210,13 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 			temp_intersection->object = scene.objects[i];
 			t_min = temp_intersection->distance;
 
+			if(intersection){
+				free(intersection);
+			}
 			intersection = temp_intersection;
+		}
+		else if(temp_intersection){
+			free(temp_intersection);
 		}
 	}
 

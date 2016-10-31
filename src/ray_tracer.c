@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <math.h>
 #include "vector.h"
 #include "projection.h"
@@ -26,8 +27,7 @@ void cgGenerateImage(){
 
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level){
 	cgColor color = {0.3, 0.3, 0.3, 1};
-	cgIntersection * intersection;
-	cgIntersection * intersection_between_object_light;
+	cgIntersection * intersection, *intersection_between_object_light;
 
 	intersection = cgFirstIntersection(camera, ray_direction);
 
@@ -102,6 +102,10 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 						cgDiffuseIntensity(light_normal_dot_product, object.diffuse_factor, attenuated_light);
 				}
 			}
+
+			if(intersection_between_object_light){
+				free(intersection_between_object_light);
+			}
 		}
 
 		// Add enviroment lightning to diffuse intensity
@@ -141,6 +145,8 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 			color.g = (object_color_factor * color.g) + (object.reflection_factor * reflected_color.g);
 			color.b = (object_color_factor * color.b) + (object.reflection_factor * reflected_color.b);
 		}
+
+		free(intersection);
 	}
 
 	return color;

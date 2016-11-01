@@ -24,34 +24,6 @@ int main(int argc, char const *argv[]) {
 		fclose(fp);
 	}
 
-	cgColor color = {1, 1, 0, 1};
-
-	cgPoint3f points[4] = {
-		{.x = 100, .y = 750, .z = 2000},
-		{.x = 1000, .y = 750, .z = 2000},
-		{.x = 1000, .y = 800, .z = 200},
-		{.x = 0, .y = 800, .z = 200}
-	};
-
-	cgAddPolygonToScene(points, 4, color);
-
-	cgPoint3f center = {.x = 700, .y = 150, .z = 450};
-
-	color.r = 0;
-	color.g = 1;
-	color.b = 1;
-	cgVector3f direction = {100, 0, 100};
-	cgAddCylinderToScene(center, direction, 150, -200, 100, color);
-
-	center.x = 100;
-	center.y = 150;
-	center.z = 300;
-
-	direction.x = 0;
-	direction.y = 100;
-	direction.z = 100;
-	cgAddConeToScene(center, direction, 50, 100, 0, 200, color);
-
 	cgPoint3f light_position = {200, 270, 100};
 	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
 

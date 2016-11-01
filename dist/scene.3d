@@ -2,119 +2,91 @@
 	camera 500,500,-1000
 	projection-matrix 0,1000,0,1000
 	environment-lighting 0.4
-	resolution 800,800
+	resolution 1008,567
 @enddef
 
-#defsphere
-	center 500,500,500
-	radius 200
-	color 1,0,0
+#defpolygon
+	points 100,800,2500 1000,800,2500 1000,1000,0 0,1000,0
+	color 0.5568627451,0.4549019608,0.2901960784
 	diffuse-factor 0.8
 	specular-factor 0.8
 	specular-focus 50
-	environment-lighting 0.2
+	environment-lighting 0.8
 	transparency-factor 0
-	reflection-factor 0.2
-#enddef
-
-#defsphere
-	center 200,500,800
-	radius 250
-	color 0,0,1
-	diffuse-factor 0.8
-	specular-factor 0.8
-	specular-focus 50
-	environment-lighting 0.2
-	transparency-factor 0
-	reflection-factor 0.2
-#enddef
-
-#defsphere
-	center 700,600,200
-	radius 150
-	color 0,1,0
-	diffuse-factor 0.8
-	specular-factor 0.8
-	specular-focus 50
-	environment-lighting 0.2
-	transparency-factor 0
-	reflection-factor 0.2
-#enddef
-
-#defsphere
-	center 500,200,350
-	radius 50
-	color 1,0,1
-	diffuse-factor 0.8
-	specular-factor 0.8
-	specular-focus 50
-	environment-lighting 0.2
-	transparency-factor 0
-	reflection-factor 0.2
+	reflection-factor 0
 #enddef
 
 #defpolygon
-	points 100,750,2000 1000,750,2000 1000,800,200 0,800,200
-	color 1,1,0
+	points 0,0,0 0,1000,0 0,1000,3400 0,0,3400
+	color 0.5568627451,0.4549019608,0.2901960784
 	diffuse-factor 0.8
 	specular-factor 0.8
 	specular-focus 50
-	environment-lighting 0.6
+	environment-lighting 0.8
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defpolygon
+	points 1000,0,0 1000,1000,0 1000,1000,2500 1000,100,2500
+	color 0.5568627451,0.4549019608,0.2901960784
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.8
 	transparency-factor 0
 	reflection-factor 0
 #enddef
 
 #defcylinder
-	anchor 700,150,450
-	direction 100,0,100
-	radius 150
-	min-limit -200
-	max-limit 100
+	anchor 0,0,0
+	direction 100,0,0
+	radius 5
+	min-limit 0
+	max-limit 1000
 	color 0,1,1
-	diffuse-factor 0.8
-	specular-factor 0.8
+	diffuse-factor 1
+	specular-factor 1
 	specular-focus 50
-	environment-lighting 0.2
+	environment-lighting 1
 	transparency-factor 0
 	reflection-factor 0
 #enddef
 
-#defcone
-	anchor 100,150,300
-	direction 0,100,100
-	radius-k 50
-	distance-k 100
+#defcylinder
+	anchor 0,0,0
+	direction 0,100,0
+	radius 5
 	min-limit 0
-	max-limit 200
-	color 0.5,0.2,0.9
-	diffuse-factor 0.8
-	specular-factor 0.8
+	max-limit 1000
+	color 1,1,0
+	diffuse-factor 1
+	specular-factor 1
 	specular-focus 50
-	environment-lighting 0.2
+	environment-lighting 1
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defcylinder
+	anchor 0,0,0
+	direction 0,0,100
+	radius 5
+	min-limit 0
+	max-limit 3400
+	color 1,0,1
+	diffuse-factor 1
+	specular-factor 1
+	specular-focus 50
+	environment-lighting 1
 	transparency-factor 0
 	reflection-factor 0
 #enddef
 
 @deflight
 	position 200,270,100
-	intensity 0.8
+	intensity 0.9
 	c1 0
 	c2 0.0025
-	c3 0
-@enddef
-
-@deflight
-	position 750,700,100
-	intensity 0.6
-	c1 0
-	c2 0.01
-	c3 0
-@enddef
-
-@deflight
-	position 550,100,300
-	intensity 1
-	c1 0
-	c2 0.01
 	c3 0
 @enddef

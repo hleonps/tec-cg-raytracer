@@ -22,23 +22,10 @@ int main(int argc, char const *argv[]) {
 		FILE *fp = fopen(argv[1], "r");
 		parser_init(fp);
 		fclose(fp);
+
+		cgGenerateImage();
+		save_image();
 	}
-
-	cgPoint3f light_position = {200, 270, 100};
-	cgAddLightSourceToScene(light_position, 0.8, 0, 0.0025, 0);
-
-	light_position.x = 750;
-	light_position.y = 700;
-	cgAddLightSourceToScene(light_position, 0.6, 0, 0.01, 0);
-
-	light_position.x = 550;
-	light_position.y = 100;
-	light_position.z = 300;
-	cgAddLightSourceToScene(light_position, 1, 0, 0.01, 0);
-	
-	cgGenerateImage();
-	save_image();
-
 	return 0;
 }
 

@@ -9,13 +9,6 @@
 extern const long double EPSILON;
 cgScene scene = {NULL, 0, NULL, 0, 0};
 
-void cgAddSphereToScene(cgObject sphere){
-	scene.num_objects++;
-
-	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
-	scene.objects[scene.num_objects - 1] = sphere;
-}
-
 void cgAddPolygonToScene(cgObject polygon){
 
 	cgPolygon *information = (cgPolygon *) polygon.data;
@@ -60,6 +53,13 @@ void cgAddPolygonToScene(cgObject polygon){
 	scene.objects[scene.num_objects - 1] = polygon;
 }
 
+void cgAddSphereToScene(cgObject sphere){
+	scene.num_objects++;
+
+	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
+	scene.objects[scene.num_objects - 1] = sphere;
+}
+
 void cgAddCylinderToScene(cgObject cylinder){
 	scene.num_objects++;
 
@@ -68,23 +68,13 @@ void cgAddCylinderToScene(cgObject cylinder){
 }
 
 void cgAddConeToScene(cgObject cone){
-
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
 	scene.objects[scene.num_objects - 1] = cone;
 }
 
-void cgAddLightSourceToScene(cgPoint3f position, long double intensity, long double c1, long double c2, long double c3){
-	cgLight light_source;
-
-	light_source.position = position;
-	light_source.intensity = intensity;
-
-	light_source.c1 = c1;
-	light_source.c2 = c2;
-	light_source.c3 = c3;
-
+void cgAddLightSourceToScene(cgLight light_source){
 	scene.num_lights++;
 
 	scene.lights = (cgLight *) realloc(scene.lights, sizeof(cgLight) * scene.num_lights);

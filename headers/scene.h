@@ -12,10 +12,10 @@ struct cgScene {
 
 cgScene scene;
 
-void cgAddSphereToScene(cgPoint3f center, long double radius, cgColor color);
-void cgAddPolygonToScene(cgPoint3f * points, int points_count, cgColor color);
-void cgAddCylinderToScene(cgPoint3f anchor, cgVector3f direction, long double radius, long double distance_a, long double distance_b, cgColor color);
-void cgAddConeToScene(cgPoint3f anchor, cgVector3f direction, long double radius_k, long double distance_k, long double distance_a, long double distance_b, cgColor color);
-void cgAddLightSourceToScene(cgPoint3f position, long double intensity, long double c1, long double c2, long double c3);
+void cgAddSphereToScene(cgObject sphere);
+void cgAddPolygonToScene(cgObject polygon);
+void cgAddCylinderToScene(cgObject cylinder);
+void cgAddConeToScene(cgObject cone);
+void cgAddLightSourceToScene(cgLight light_source);
 void cgSetEnvironmentLighting(long double intensity);
 cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction);

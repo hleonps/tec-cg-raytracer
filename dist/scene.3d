@@ -1,0 +1,92 @@
+@defscene
+	camera 500,500,-1000
+	projection-matrix 0,1000,0,1000
+	environment-lighting 0.4
+	resolution 1008,567
+@enddef
+
+#defpolygon
+	points 100,800,2500 1000,800,2500 1000,1000,0 0,1000,0
+	color 0.5568627451,0.4549019608,0.2901960784
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.8
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defpolygon
+	points 0,0,0 0,1000,0 0,1000,3400 0,0,3400
+	color 0.5568627451,0.4549019608,0.2901960784
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.8
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defpolygon
+	points 1000,0,0 1000,1000,0 1000,1000,2500 1000,100,2500
+	color 0.5568627451,0.4549019608,0.2901960784
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.8
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defcylinder
+	anchor 0,0,0
+	direction 100,0,0
+	radius 5
+	min-limit 0
+	max-limit 1000
+	color 0,1,1
+	diffuse-factor 1
+	specular-factor 1
+	specular-focus 50
+	environment-lighting 1
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defcylinder
+	anchor 0,0,0
+	direction 0,100,0
+	radius 5
+	min-limit 0
+	max-limit 1000
+	color 1,1,0
+	diffuse-factor 1
+	specular-factor 1
+	specular-focus 50
+	environment-lighting 1
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+#defcylinder
+	anchor 0,0,0
+	direction 0,0,100
+	radius 5
+	min-limit 0
+	max-limit 3400
+	color 1,0,1
+	diffuse-factor 1
+	specular-factor 1
+	specular-focus 50
+	environment-lighting 1
+	transparency-factor 0
+	reflection-factor 0
+#enddef
+
+@deflight
+	position 200,270,100
+	intensity 0.9
+	c1 0
+	c2 0.0025
+	c3 0
+@enddef

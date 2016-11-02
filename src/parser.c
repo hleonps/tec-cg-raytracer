@@ -554,8 +554,8 @@ int readForGenericObject(char* token, cgObject* object){
 			printf("Syntax error at line %d\n", line_count);
 			return 0;
 		}
-		long double *values = ldvalues(token, 3);
-		cgColor color = {.r = values[0], .g = values[1], .b = values[2], .a = 1};
+		int *values = ivalues(token, 3);
+		cgColor color = {.r = values[0]/255.0, .g = values[1]/255.0, .b = values[2]/255.0, .a = 1};
 		object->color = color;
 	}
 	else if(strcmp(token, "diffuse-factor") == 0){

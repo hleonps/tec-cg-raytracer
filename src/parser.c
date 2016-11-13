@@ -13,6 +13,7 @@ cgObject *readSphere(FILE* fp);
 cgObject *readPolygon(FILE* fp);
 cgObject *readCylinder(FILE* fp);
 cgObject *readCone(FILE* fp);
+cgObject *readDisk(FILE* fp);
 cgLight *readLightSource(FILE *fp);
 
 int* ivalues (char* token, int total);
@@ -77,6 +78,18 @@ void parser_init(FILE* fp){
 				printf("Failed to create scene\n");
 				return;
 			}
+		}
+		else if(strcmp(line, "#defdisk") == 0){
+			cgObject *disk = readDisk(fp);
+
+			if(disk != NULL){
+				cgAddDiskToScene(*disk);
+			}
+			else{
+				printf("Failed to create scene\n");
+				return;
+			}
+			
 		}
 		else if(strcmp(line, "@deflight") == 0){
 			cgLight *light_source = readLightSource(fp);
@@ -437,6 +450,94 @@ cgObject *readCone(FILE* fp){
 	return cone;
 }
 
+cgObject *readDisk(FILE* fp){
+	cgObject *disk = createGenericObject(DISK);
+	
+	cgDisk *information = (cgDisk*)malloc(sizeof(cgDisk));
+	information->normal_vector = NULL;
+	information->inner_radius = 0;
+	information->outer_radius = 0;
+
+	char *line;
+	while((line = readline(fp)) != NULL){
+		if(strcmp(line, "#enddef") == 0){
+			break;
+		}
+		else{
+			char* token;
+			token = strtok(line, " ");
+
+			if(token == NULL){
+				/* Blank line under body scope */
+				continue;
+			}
+			else if(strcmp(token, "center") == 0){
+				token = strtok(NULL, " ");
+				if(token == NULL){
+					printf("Syntax error at line %d\n", line_count);
+					return NULL;
+				}
+				long double *values = ldvalues(token, 3);
+				cgPoint3f center = {.x = values[0], .y = values[1], .z = values[2]};
+				information->center = center;
+			}
+			else if(strcmp(token, "plane-points") == 0){
+				int points_count = 0;
+				char** point_vals = NULL;
+				token = strtok(NULL, " ");
+
+				if(token == NULL){
+					printf("Syntax error at line %d\n", line_count);
+					return NULL;
+				}
+
+				while(token != NULL || points_count < 2){
+					points_count++;
+					point_vals = realloc(point_vals, sizeof(char*) * points_count);
+					point_vals[points_count - 1] = token;
+					token = strtok(NULL, " ");
+				}
+
+				cgPoint3f *points = malloc(sizeof(cgPoint3f) * points_count);
+				for(int i = 0; i < points_count; i++){
+					long double *values = ldvalues(point_vals[i], 3);
+					cgPoint3f point = {.x = values[0], .y = values[1], .z = values[2]};
+					points[i] = point;
+				}
+
+				information->plane_points = points;
+			}
+			else if(strcmp(token, "inner-radius") == 0){
+				token = strtok(NULL, " ");
+				if(token == NULL){
+					printf("Syntax error at line %d\n", line_count);
+					return NULL;
+				}
+				long double *values = ldvalues(token, 1);
+				information->inner_radius = values[0];
+			}
+			else if(strcmp(token, "outer-radius") == 0){
+				token = strtok(NULL, " ");
+				if(token == NULL){
+					printf("Syntax error at line %d\n", line_count);
+					return NULL;
+				}
+				long double *values = ldvalues(token, 1);
+				information->outer_radius = values[0];
+			}
+			else{
+				if(!readForGenericObject(token, disk)){
+					return NULL;
+				}
+			}
+		}
+	}
+
+	disk->data = (void*)information;
+
+	return disk;
+}
+
 cgLight *readLightSource(FILE* fp){
 	cgLight *light_source = calloc(sizeof(cgLight), 1);
 
@@ -645,6 +746,10 @@ cgObject* createGenericObject(cgObjectType type){
 		case CONE:
 			object->intersection = &cgConeIntersection;
 			object->normal_vector = (cgNormalVector) &cgConeNormalVector;
+			break;
+		case DISK:
+			object->intersection = &cgDiskIntersection;
+			object->normal_vector = (cgNormalVector) &cgDiskNormalVector;
 			break;
 		default:
 			object = NULL;

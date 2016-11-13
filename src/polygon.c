@@ -12,7 +12,7 @@ cgPoint2f* cgMoveIntersectionToOrigin(cgPoint2f intersection, int points_count, 
 cgVector3f cgPolygonNormalVector(void *information){
 	cgPolygon polygon_information = (*(cgPolygon*) (information));
 
-	// If it was calculated before, use the stored vector
+	// If it was calculated earlier, use the stored vector
 	if(polygon_information.normal_vector != NULL){
 		return *polygon_information.normal_vector;
 	}

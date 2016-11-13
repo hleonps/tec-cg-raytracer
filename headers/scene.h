@@ -16,6 +16,7 @@ void cgAddSphereToScene(cgObject sphere);
 void cgAddPolygonToScene(cgObject polygon);
 void cgAddCylinderToScene(cgObject cylinder);
 void cgAddConeToScene(cgObject cone);
+void cgAddDiskToScene(cgObject disk);
 void cgAddLightSourceToScene(cgLight light_source);
 void cgSetEnvironmentLighting(long double intensity);
 cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction);

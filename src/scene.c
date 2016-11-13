@@ -74,6 +74,13 @@ void cgAddConeToScene(cgObject cone){
 	scene.objects[scene.num_objects - 1] = cone;
 }
 
+void cgAddDiskToScene(cgObject disk){
+	scene.num_objects++;
+
+	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
+	scene.objects[scene.num_objects - 1] = disk;
+}
+
 void cgAddLightSourceToScene(cgLight light_source){
 	scene.num_lights++;
 

@@ -53,6 +53,9 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 			case CONE:
 				normal_vector = ((cgNormalVectorCone) object.normal_vector)(intersection->point, object.data);
 				break;
+			case DISK:
+				normal_vector = ((cgNormalVectorDisk) object.normal_vector)(object.data);
+				break;
 		}
 
 		if(cgDotProduct(ray_direction, normal_vector) > 0){

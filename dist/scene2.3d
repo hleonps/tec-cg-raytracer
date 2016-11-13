@@ -1,0 +1,17 @@
+@defscene
+	camera 504,283,-1000
+	projection-matrix 0,1008,0,567
+	environment-lighting 0.4
+	resolution 1008,567
+@enddef
+
+#defdisk
+	center 500,500,500
+	plane-points 0,567,200 700,300,400
+	outer-radius 200
+	color 114,78,78
+	diffuse-factor 0.5
+	specular-factor 0
+	specular-focus 50
+	environment-lighting 0.8
+#enddef

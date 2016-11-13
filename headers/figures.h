@@ -4,3 +4,4 @@
 #include "polygon.h"
 #include "cylinder.h"
 #include "cone.h"
+#include "disk.h"

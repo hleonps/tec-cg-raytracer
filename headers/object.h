@@ -9,7 +9,8 @@ typedef enum {
 	SPHERE,
 	POLYGON,
 	CYLINDER,
-	CONE
+	CONE,
+	DISK
 } cgObjectType;
 
 struct cgObject {

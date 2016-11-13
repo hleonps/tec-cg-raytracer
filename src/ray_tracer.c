@@ -24,14 +24,17 @@ void cgGenerateImage(){
 
 			cgColor sample_color;
 			unsigned int sample_size = 4;
-			long double sample_offset = ((long double) 1)/sample_size;
+			unsigned int sample_half_size = sample_size / 2;
 
-			for (int sample_i = 0; sample_i < (sample_size / 2); sample_i++){
-				for (int sample_j = 0; sample_j < (sample_size / 2); sample_j++){
+			long double sample_offset = ((long double) 1)/ sample_half_size;
+			long double sample_half_offset = sample_offset / 2;
+
+			for (int sample_i = 0; sample_i < sample_half_size; sample_i++){
+				for (int sample_j = 0; sample_j < sample_half_size; sample_j++){
 
 					cgPoint3f window_point = {
-						cgMapXFrameToProjectionMatrix(i, sample_i * sample_offset),
-						cgMapYFrameToProjectionMatrix(j, sample_j * sample_offset),
+						cgMapXFrameToProjectionMatrix(i, sample_i * sample_offset + sample_half_offset),
+						cgMapYFrameToProjectionMatrix(j, sample_j * sample_offset + sample_half_offset),
 						0
 					};
 

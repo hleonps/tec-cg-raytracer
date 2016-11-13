@@ -1,9 +1,16 @@
 #include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
 #include <math.h>
 #include "vector.h"
 #include "projection.h"
 #include "figures.h"
 #include "scene.h"
+
+typedef struct{
+	int i_offset;
+	int i_limit;
+} cgRaytracerIndexes;
 
 #define MIN(X,Y) ((X < Y) ? X : Y)
 const long double EPSILON = 0.000002;
@@ -12,10 +19,44 @@ const unsigned int MAX_REFLECTION_LEVEL = 1;
 const unsigned int MAX_ANTIALISING_LEVEL = 5;
 const unsigned int MIN_ANTIALISING_LEVEL = 1;
 
+void * cgGenerateImageProcess(void * data);
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level);
 
 void cgGenerateImage(){
-	for (int i = 0; i < framebuffer_h; i++) {
+	// Get number of cores in processor. Tested on macOS and Linux.
+	long number_of_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	pthread_t * threads = (pthread_t *) malloc(sizeof(pthread_t) * number_of_cores);
+	cgRaytracerIndexes * indexes = (cgRaytracerIndexes *) malloc(sizeof(cgRaytracerIndexes) * number_of_cores);
+
+	// Divide horizontal size by the number of cores
+	int thread_framebuffer_h = ceil((double) framebuffer_h / number_of_cores);
+
+	for (int i = 0; i < number_of_cores; i++) {
+		// Thread information (start and end of framebuffer)
+		indexes[i].i_offset = i * thread_framebuffer_h;
+		indexes[i].i_limit = indexes[i].i_offset + thread_framebuffer_h;
+
+		// Fix limit to framebuffer size
+		if(indexes[i].i_limit > framebuffer_h){
+			indexes[i].i_limit = framebuffer_h;
+		}
+
+		pthread_create(&threads[i], NULL, cgGenerateImageProcess, (void *) &indexes[i]);
+	}
+
+	// Wait for threads to finish
+	for (int i = 0; i < number_of_cores; i++) {
+		pthread_join(threads[i], NULL);
+	}
+
+	free(threads);
+	free(indexes);
+}
+
+void * cgGenerateImageProcess(void * data){
+	cgRaytracerIndexes *indexes = (cgRaytracerIndexes *) data;
+
+	for (int i = indexes->i_offset; i < indexes->i_limit; i++) {
 		for (int j = 0; j < framebuffer_v; j++) {
 
 			long double average_red = 0.0;
@@ -59,6 +100,8 @@ void cgGenerateImage(){
 			framebuffer[i][j] = sample_color;
 		}
 	}
+
+	pthread_exit(NULL);
 }
 
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level){

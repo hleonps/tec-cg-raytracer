@@ -9,18 +9,54 @@
 const long double EPSILON = 0.000002;
 const long double NO_INTERSECTION_T_VALUE = -1.000000;
 const unsigned int MAX_REFLECTION_LEVEL = 1;
+const unsigned int MAX_ANTIALISING_LEVEL = 5;
+const unsigned int MIN_ANTIALISING_LEVEL = 1;
 
 cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int reflexion_level);
 
 void cgGenerateImage(){
 	for (int i = 0; i < framebuffer_h; i++) {
 		for (int j = 0; j < framebuffer_v; j++) {
-			cgPoint3f window_point = {cgMapXFrameToProjectionMatrix(i), cgMapYFrameToProjectionMatrix(j), 0};
 
-			cgVector3f ray_vector = cgDirectionVector(camera, window_point);
-			cgVector3f unit_ray_vector = cgNormalizedVector(ray_vector, cgVectorMagnitude(ray_vector));
+			long double average_red = 0.0;
+			long double average_green = 0.0;
+			long double average_blue = 0.0;
 
-			framebuffer[i][j] = cgPickColor(camera, unit_ray_vector, MAX_REFLECTION_LEVEL);
+			cgColor sample_color;
+			unsigned int sample_size = 4;
+			unsigned int sample_half_size = sample_size / 2;
+
+			long double sample_offset = ((long double) 1)/ sample_half_size;
+			long double sample_half_offset = sample_offset / 2;
+
+			for (int sample_i = 0; sample_i < sample_half_size; sample_i++){
+				for (int sample_j = 0; sample_j < sample_half_size; sample_j++){
+
+					cgPoint3f window_point = {
+						cgMapXFrameToProjectionMatrix(i, sample_i * sample_offset + sample_half_offset),
+						cgMapYFrameToProjectionMatrix(j, sample_j * sample_offset + sample_half_offset),
+						0
+					};
+
+					cgVector3f ray_vector = cgDirectionVector(camera, window_point);
+					cgVector3f unit_ray_vector = cgNormalizedVector(ray_vector, cgVectorMagnitude(ray_vector));
+
+					sample_color = cgPickColor(camera, unit_ray_vector, MAX_REFLECTION_LEVEL);
+					average_red += sample_color.r;
+					average_green += sample_color.g;
+					average_blue += sample_color.b;
+				}
+			}
+
+			average_red = average_red / sample_size;
+			average_green = average_green / sample_size;
+			average_blue = average_blue / sample_size;
+
+			sample_color.r = average_red;
+			sample_color.g = average_green;
+			sample_color.b = average_blue;
+
+			framebuffer[i][j] = sample_color;
 		}
 	}
 }

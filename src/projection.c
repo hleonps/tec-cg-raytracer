@@ -19,16 +19,16 @@ void cgSetProjectionMatrix(int left, int right, int bottom, int top){
 	projection_matrix.max.y = top;
 }
 
-long double cgMapXFrameToProjectionMatrix(int x){
+long double cgMapXFrameToProjectionMatrix(int x, long double offset){
 	long double min_x = projection_matrix.min.x;
 	long double max_x = projection_matrix.max.x;
 
-	return (((long double) ((x + 0.5) * (max_x - min_x)))/ framebuffer_h) + min_x;
+	return (((long double) ((x + offset) * (max_x - min_x)))/ framebuffer_h) + min_x;
 }
 
-long double cgMapYFrameToProjectionMatrix(int y){
+long double cgMapYFrameToProjectionMatrix(int y, long double offset){
 	long double min_y = projection_matrix.min.y;
 	long double max_y = projection_matrix.max.y;
 
-	return (((long double) ((y + 0.5) * (max_y - min_y)))/ framebuffer_v) + min_y;
+	return (((long double) ((y + offset) * (max_y - min_y)))/ framebuffer_v) + min_y;
 }

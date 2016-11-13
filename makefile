@@ -5,7 +5,7 @@ CFLAGS = -std=gnu99 -Wall -I./headers
 ifeq ($(OS),Darwin)
 	LDLIBS =
 else
-	LDLIBS = -lm
+	LDLIBS = -lm -pthread
 endif
 
 C_SOURCES = $(wildcard ./src/*.c)

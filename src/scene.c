@@ -110,6 +110,7 @@ void cgAddPolygonToScene(cgObject polygon){
 }
 
 void cgAddSphereToScene(cgObject sphere){
+
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);
@@ -218,6 +219,42 @@ void cgAddConeToScene(cgObject cone){
 }
 
 void cgAddDiskToScene(cgObject disk){
+	cgDisk *information = (cgDisk *) disk.data;
+
+	if(disk.texture != NULL){
+		cgVector3f normal_vector = ((cgNormalVectorDisk) disk.normal_vector)(disk.data);
+
+		long double a = normal_vector.x, b = normal_vector.y,  c = normal_vector.z;
+
+		/* Plane equation is required to get D, normal vector is [A, B, C]
+			Ax + By + Cz + D = 0 */
+		long double d = -(a * information->center.x + b * information->center.y + c * information->center.z);
+
+		long double min_x = information->center.x - information->outer_radius, 
+			min_y = information->center.y - information->outer_radius, 
+			min_z = (-a*min_x -b*min_y - d)/c,
+			max_x = information->center.x + information->outer_radius, 
+			max_y = information->center.y + information->outer_radius, 
+			max_z = (-a*max_x -b*max_y - d)/c;
+
+		information->texture = malloc(sizeof(cgDiskTexture));
+		information->texture->rectangle = malloc(sizeof(cgPoint3f) * 4);
+
+		cgPoint3f p3 = {.x = min_x, .y = min_y, .z = min_z}, p1 = {.x = max_x, .y = max_y, .z = max_z};
+		cgPoint3f p2 = {.x = max_x, .y = min_y, .z = max_z}, p0 = {.x = min_x, .y = max_y, .z = min_z};
+
+		information->texture->rectangle[0] = p0;
+		information->texture->rectangle[1] = p1;
+		information->texture->rectangle[2] = p2;
+		information->texture->rectangle[3] = p3;
+
+		cgVector3f height_vector = {.x = p3.x - p0.x, .y = p3.y - p0.y, .z = p3.z - p0.z};
+		cgVector3f width_vector = {.x = p1.x - p0.x, .y = p1.y - p0.y, .z = p1.z - p0.z};
+
+		information->texture->height = cgVectorMagnitude(height_vector);
+		information->texture->width = cgVectorMagnitude(width_vector);
+	}
+
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);

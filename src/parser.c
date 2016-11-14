@@ -750,6 +750,7 @@ cgObject* createGenericObject(cgObjectType type){
 		case SPHERE:
 			object->intersection = &cgSphereIntersection;
 			object->normal_vector = (cgNormalVector) &cgSphereNormalVector;
+			object->texture_color = (cgTextureColor) &cgSphereTextureColor;
 			break;
 		case POLYGON:
 			object->intersection = &cgPolygonIntersection;
@@ -769,6 +770,7 @@ cgObject* createGenericObject(cgObjectType type){
 		case DISK:
 			object->intersection = &cgDiskIntersection;
 			object->normal_vector = (cgNormalVector) &cgDiskNormalVector;
+			object->texture_color = (cgTextureColor) &cgDiskTextureColor;
 			break;
 		default:
 			object = NULL;

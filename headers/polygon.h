@@ -1,4 +1,3 @@
-#include <stdio.h>
 typedef struct cgPolygon cgPolygon;
 typedef struct cgPolygonTexture cgPolygonTexture;
 typedef cgVector3f (*cgNormalVectorPolygon)(void*);

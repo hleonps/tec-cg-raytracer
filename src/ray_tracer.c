@@ -119,7 +119,7 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 		else{
 			switch (object.type) {
 				case SPHERE:
-					//color = ((cgNormalVectorSphere) object.normal_vector)(intersection->point, object.data);
+					color = ((cgTextureColorSphere) object.texture_color)(object.texture, intersection->point, object.data);
 					break;
 				case POLYGON:
 					color = ((cgTextureColorPolygon) object.texture_color)(object.texture, intersection->point, object.data);
@@ -131,7 +131,7 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 					color = ((cgTextureColorCone) object.texture_color)(object.texture, intersection->point, object.data);
 					break;
 				case DISK:
-					//normal_vector = ((cgNormalVectorDisk) object.normal_vector)(object.data);
+					color = ((cgTextureColorDisk) object.texture_color)(object.texture, intersection->point, object.data);
 					break;
 			}
 		}

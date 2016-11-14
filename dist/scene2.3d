@@ -5,22 +5,18 @@
 	resolution 1008,567
 @enddef
 
-#defcone
-	anchor 200,400,850
-	direction 300,100,100
-	radius-k 10
-	distance-k 16
-	min-limit -300
-	max-limit 300
-	texture ./dist/cr.avs
-	diffuse-factor 0.9
-	specular-factor 0.5
+#defsphere
+	center 475,400,990
+	radius 400
+	texture ./dist/earth.avs
+	diffuse-factor 0.8
+	specular-factor 0.8
 	specular-focus 50
-	environment-lighting 0.5
+	environment-lighting 0.3
 #enddef
 
 @deflight
-	position 800,300,0
+	position 500,300,0
 	intensity 1
 	c1 0
 	c2 0

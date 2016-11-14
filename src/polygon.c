@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "vector.h"
 #include "graphics.h"
 #include "object.h"

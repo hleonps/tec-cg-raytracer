@@ -5,22 +5,17 @@
 	resolution 1008,567
 @enddef
 
-#defpolygon
-	points 100,400,200 500,400,500 300,100,300
+#defcylinder
+	anchor 200,0,850
+	direction 200,100,300
+	radius 100
+	min-limit 400
+	max-limit 600
 	texture ./dist/cr.avs
-	diffuse-factor 0.5
-	specular-factor 0.5
+	diffuse-factor 0.8
+	specular-factor 0.8
 	specular-focus 50
-	environment-lighting 0.8
-#enddef
-
-#defpolygon
-	points 600,400,200 1000,400,500 800,100,500 700,100,300 600,100,200
-	texture ./dist/cr.avs
-	diffuse-factor 0.5
-	specular-factor 0.5
-	specular-focus 50
-	environment-lighting 0.8
+	environment-lighting 0.2
 #enddef
 
 @deflight

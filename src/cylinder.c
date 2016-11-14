@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include "object.h"
 #include "cylinder.h"
+#define PI 3.14159265
 
 int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information);
 
@@ -141,4 +142,35 @@ cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
 	};
 
 	return normal_vector;
+}
+
+cgColor cgCylinderTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data){
+	cgCylinder cylinder_information = (*(cgCylinder*) (data));
+	cgVector3f intersection_vector = {
+		.x = intersection.x - cylinder_information.anchor.x,
+		.y = intersection.y - cylinder_information.anchor.y,
+		.z = intersection.z - cylinder_information.anchor.z
+	};
+
+	long double dot = cgDotProduct(cylinder_information.direction, intersection_vector);
+	long double H = cylinder_information.distance_b - cylinder_information.distance_a;
+	long double v = dot/H;
+
+	v = (v > 1) ? 1.0 : v; /* Temporary fix for small cylinders */
+
+	cgVector3f normal_vector = cgCylinderNormalVector(intersection, data);
+
+	cgVector3f g = *cylinder_information.texture_start;
+	long double u = acos(cgDotProduct(normal_vector, g))/(2.0*PI);
+
+	int i = (texture->height - 1) * v;
+	int j = (texture->width - 1) * u;
+
+	//printf("(%Lf, %Lf) H = %Lf, dot = %Lf\n", v, u, H, dot);
+	cgAVS_Pixel texel = texture->data[i][j];
+	
+	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
+
+	//cgColor color = {.r = 0, .g = 0, .b = 1};
+	return color;
 }

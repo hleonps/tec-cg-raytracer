@@ -764,6 +764,7 @@ cgObject* createGenericObject(cgObjectType type){
 		case CONE:
 			object->intersection = &cgConeIntersection;
 			object->normal_vector = (cgNormalVector) &cgConeNormalVector;
+			object->texture_color = (cgTextureColor) &cgConeTextureColor;
 			break;
 		case DISK:
 			object->intersection = &cgDiskIntersection;

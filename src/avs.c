@@ -25,7 +25,7 @@ cgAVS_t* readAVS(FILE* fp){
 
 	for(int i = avs->height - 1; i >= 0; i--){
 		for(int j = avs->width - 1; j >= 0; j--){
-			/* Read the current pixel */
+			//Read the current pixel
 			fread(&a, sizeof(unsigned char), 1, fp); // alpha component is ignored
 			fread(&r, sizeof(unsigned char), 1, fp);
 			fread(&g, sizeof(unsigned char), 1, fp);

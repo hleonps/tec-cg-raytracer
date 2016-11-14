@@ -5,17 +5,18 @@
 	resolution 1008,567
 @enddef
 
-#defcylinder
-	anchor 200,0,850
-	direction 400,200,200
-	radius 100
-	min-limit 0
-	max-limit 1000
-	texture ./dist/wood.avs
-	diffuse-factor 0.8
-	specular-factor 0.2
+#defcone
+	anchor 200,400,850
+	direction 300,100,100
+	radius-k 10
+	distance-k 16
+	min-limit -300
+	max-limit 300
+	texture ./dist/cr.avs
+	diffuse-factor 0.9
+	specular-factor 0.5
 	specular-focus 50
-	environment-lighting 0.2
+	environment-lighting 0.5
 #enddef
 
 @deflight

@@ -4,7 +4,6 @@
 #include "graphics.h"
 #include "object.h"
 #include "cylinder.h"
-#define PI 3.14159265
 
 int cgIsInsideFiniteCylinder(cgPoint3f intersection_point, cgCylinder information);
 
@@ -152,9 +151,8 @@ cgColor cgCylinderTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* d
 		.z = intersection.z - cylinder_information.anchor.z
 	};
 
-	long double dot = cgDotProduct(cylinder_information.direction, intersection_vector);
 	long double H = fabsl(cylinder_information.distance_b - cylinder_information.distance_a);
-	long double v = dot/H;
+	long double v = cgDotProduct(cylinder_information.direction, intersection_vector)/H;
 
 	v = (v > 1) ? 1.0 : v; /* Temporary fix for small cylinders */
 

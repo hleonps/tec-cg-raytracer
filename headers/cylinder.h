@@ -1,4 +1,4 @@
-
+#define PI 3.14159265
 typedef struct cgCylinder cgCylinder;
 typedef cgVector3f (*cgNormalVectorCylinder)(cgPoint3f,void*);
 typedef cgColor (*cgTextureColorCylinder)(cgAVS_t*, cgPoint3f, void*);

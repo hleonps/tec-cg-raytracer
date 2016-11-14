@@ -167,6 +167,50 @@ void cgAddCylinderToScene(cgObject cylinder){
 }
 
 void cgAddConeToScene(cgObject cone){
+
+	cgCone *information = (cgCone *) cone.data;
+
+	if(cone.texture != NULL){
+		cgPoint3f tmp = {
+			.x = information->anchor.x,
+			.y = information->anchor.y,
+			.z = information->anchor.z
+		};
+
+		if(information->direction.x == 0){
+			tmp.x += information->radius_k;
+		}
+		else if(information->direction.y == 0){
+			tmp.y += information->radius_k;
+		}
+		else if(information->direction.z == 0){
+			tmp.z += information->radius_k;
+		}
+		else{
+			tmp.z += information->radius_k;
+		}
+
+		cgVector3f g = {
+			.x = tmp.x - information->anchor.x,
+			.y = tmp.y - information->anchor.y,
+			.z = tmp.z - information->anchor.z
+		};
+
+		cgVector3f normalized_g = cgNormalizedVector(g, cgVectorMagnitude(g));
+		
+		cgVector3f *new_g = malloc(sizeof(cgVector3f));
+
+		new_g->x = normalized_g.x;
+		new_g->y = normalized_g.y;
+		new_g->z = normalized_g.z;
+
+		information->texture_start = new_g;
+
+	}
+	else{
+		information->texture_start = NULL;
+	}
+
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);

@@ -7,13 +7,13 @@
 
 #defcylinder
 	anchor 200,0,850
-	direction 200,100,300
+	direction 400,200,200
 	radius 100
-	min-limit 400
-	max-limit 600
-	texture ./dist/cr.avs
+	min-limit 0
+	max-limit 1000
+	texture ./dist/wood.avs
 	diffuse-factor 0.8
-	specular-factor 0.8
+	specular-factor 0.2
 	specular-focus 50
 	environment-lighting 0.2
 #enddef

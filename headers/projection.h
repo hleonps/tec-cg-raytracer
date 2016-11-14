@@ -1,4 +1,3 @@
-
 typedef struct {
 	cgPoint2f min;
 	cgPoint2f max;

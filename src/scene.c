@@ -47,6 +47,62 @@ void cgAddPolygonToScene(cgObject polygon){
 		}
 	}
 
+	if(polygon.texture != NULL){
+		/* Rectangle points (Xmin, Ymin, Zmin) (Xmin, Ymax, Zmin) (Xmax, Ymin, Zmax) (Xmax, Ymax, Zmax) */
+		long double min_x = information->points_3d[0].x, 
+			min_y = information->points_3d[0].y, 
+			min_z = information->points_3d[0].z, 
+			max_x = information->points_3d[0].x, 
+			max_y = information->points_3d[0].y, 
+			max_z = information->points_3d[0].z;
+
+		information->texture = malloc(sizeof(cgPolygonTexture));
+		information->texture->rectangle = malloc(sizeof(cgPoint3f) * 4);
+
+		cgPoint3f *tmp;
+		/* Get values */
+		for(int i = 0; i < information->points_count; i++){
+			tmp = &information->points_3d[i];
+			if(tmp->x < min_x){
+				min_x = tmp->x;
+			}
+
+			if(tmp->x > max_x){
+				max_x = tmp->x;
+			}
+
+			if(tmp->y < min_y){
+				min_y = tmp->y;
+			}
+
+			if(tmp->y > min_y){
+				max_y = tmp->y;
+			}
+
+			if(tmp->z < min_z){
+				min_z = tmp->z;
+			}
+
+			if(tmp->z > max_z){
+				max_z = tmp->z;
+			}
+		}
+		
+		cgPoint3f p3 = {.x = min_x, .y = min_y, .z = min_z}, p1 = {.x = max_x, .y = max_y, .z = max_z};
+		cgPoint3f p2 = {.x = max_x, .y = min_y, .z = max_z}, p0 = {.x = min_x, .y = max_y, .z = min_z};
+
+		information->texture->rectangle[0] = p0;
+		information->texture->rectangle[1] = p1;
+		information->texture->rectangle[2] = p2;
+		information->texture->rectangle[3] = p3;
+
+		cgVector3f height_vector = {.x = p3.x - p0.x, .y = p3.y - p0.y, .z = p3.z - p0.z};
+		cgVector3f width_vector = {.x = p1.x - p0.x, .y = p1.y - p0.y, .z = p1.z - p0.z};
+
+		information->texture->height = cgVectorMagnitude(height_vector);
+		information->texture->width = cgVectorMagnitude(width_vector);
+	}
+
 	scene.num_objects++;
 
 	scene.objects = (cgObject *) realloc(scene.objects, sizeof(cgObject) * scene.num_objects);

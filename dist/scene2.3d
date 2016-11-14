@@ -5,13 +5,28 @@
 	resolution 1008,567
 @enddef
 
-#defdisk
-	center 500,500,500
-	plane-points 0,567,200 700,300,400
-	outer-radius 200
-	color 114,78,78
+#defpolygon
+	points 100,400,200 500,400,500 300,100,300
+	texture ./dist/cr.avs
 	diffuse-factor 0.5
-	specular-factor 0
+	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.8
 #enddef
+
+#defpolygon
+	points 600,400,200 1000,400,500 800,100,500 700,100,300 600,100,200
+	texture ./dist/cr.avs
+	diffuse-factor 0.5
+	specular-factor 0.5
+	specular-focus 50
+	environment-lighting 0.8
+#enddef
+
+@deflight
+	position 800,300,0
+	intensity 1
+	c1 0
+	c2 0
+	c3 0
+@enddef

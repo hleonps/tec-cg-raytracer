@@ -45,7 +45,7 @@ void save_image(){
 		for(int i = 0; i < framebuffer_v; i++){
 			for(int j = 0; j < framebuffer_h; j++){
 				/* Write the current pixel */
-				unsigned char alpha = round(framebuffer[j][i].a * 255);
+				unsigned char alpha = 255;
 				unsigned char red = round(framebuffer[j][i].r * 255);
 				unsigned char green = round(framebuffer[j][i].g * 255);
 				unsigned char blue = round(framebuffer[j][i].b * 255);

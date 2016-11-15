@@ -5,12 +5,13 @@
 	resolution 1008,567
 @enddef
 
-#defcylinder
-	anchor 700,0,500
+#defcone
+	anchor 700,400,500
 	direction 0,100,0
-	radius 300
-	min-limit 0
-	max-limit 600
+	radius-k 10
+	distance-k 16
+	min-limit 300
+	max-limit -300
 	texture ./dist/earth.avs
 	diffuse-factor 0.8
 	specular-factor 0.8

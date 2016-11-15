@@ -165,7 +165,7 @@ cgColor cgConeTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data)
 	long double u = acos(cgDotProduct(normal_vector, g))/(2.0*PI);
 
 	cgVector3f q = cone_information.direction;
-	cgVector3f plane_normal = cgCrossProduct(q, g);
+	cgVector3f plane_normal = cgCrossProduct(g, q);
 	long double d = -plane_normal.x * q.x - plane_normal.y*q.y - plane_normal.z*q.z;
 
 	long double result = plane_normal.x*intersection.x + plane_normal.y*intersection.y +
@@ -174,8 +174,8 @@ cgColor cgConeTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data)
 	if(result < 0){
 		u = 1 - u;
 	}
-	int i = (texture->height - 1) * v;
-	int j = (texture->width - 1) * u;
+	int i = texture->height * (1 - v);
+	int j = texture->width* u;
 
 	cgAVS_Pixel texel = texture->data[i][j];
 	

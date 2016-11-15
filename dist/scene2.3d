@@ -5,14 +5,17 @@
 	resolution 1008,567
 @enddef
 
-#defsphere
-	center 475,400,990
-	radius 400
+#defcylinder
+	anchor 700,0,500
+	direction 0,100,0
+	radius 300
+	min-limit 0
+	max-limit 600
 	texture ./dist/earth.avs
 	diffuse-factor 0.8
 	specular-factor 0.8
 	specular-focus 50
-	environment-lighting 0.3
+	environment-lighting 0.2
 #enddef
 
 @deflight

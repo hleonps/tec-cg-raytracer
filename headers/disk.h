@@ -19,5 +19,5 @@ struct cgDiskTexture {
 };
 
 cgVector3f cgDiskNormalVector(void *information);
-cgIntersection * cgDiskIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data);
+cgIntersection * cgDiskIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * disk);
 cgColor cgDiskTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data);

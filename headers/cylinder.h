@@ -12,6 +12,6 @@ struct cgCylinder{
 	cgVector3f *texture_start;
 };
 
-cgIntersection * cgCylinderIntersection(cgPoint3f eye, cgVector3f ray_direction, void * information);
+cgIntersection * cgCylinderIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * cylinder);
 cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information);
 cgColor cgCylinderTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data);

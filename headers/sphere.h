@@ -10,5 +10,5 @@ struct cgSphere {
 };
 
 cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information);
-cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data);
+cgIntersection * cgSphereIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * sphere);
 cgColor cgSphereTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data);

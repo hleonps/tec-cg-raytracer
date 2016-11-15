@@ -20,11 +20,11 @@ cgVector3f cgSphereNormalVector(cgPoint3f intersection, void *information){
 	return unit_vector;
 }
 
-cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
-	cgSphere sphere_information = (*(cgSphere*) (data));
+cgIntersection * cgSphereIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * sphere){
+	cgSphere sphere_information = (*(cgSphere*) (sphere->data));
 
 	cgIntersection * intersection = NULL;
-	cgVector3f intersection_direction =  cgDirectionVector(sphere_information.center, camera);
+	cgVector3f intersection_direction =  cgDirectionVector(sphere_information.center, anchor);
 
 	long double beta = 2*(cgDotProduct(ray_direction, intersection_direction));
 	long double delta = (intersection_direction.x * intersection_direction.x) + (intersection_direction.y * intersection_direction.y)
@@ -54,8 +54,8 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 
 		intersection->distance = t_min;
 
-		cgPoint3f intersection_point = {camera.x + (t_min * ray_direction.x),
-			camera.y + (t_min * ray_direction.y), camera.z + (t_min * ray_direction.z)};
+		cgPoint3f intersection_point = {anchor.x + (t_min * ray_direction.x),
+			anchor.y + (t_min * ray_direction.y), anchor.z + (t_min * ray_direction.z)};
 
 		intersection->point = intersection_point;
 	}
@@ -78,15 +78,15 @@ cgColor cgSphereTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* dat
     if(phi < 0.0){
     	phi += 2*PI;
     }
-        
+
     long double u = phi/(2*PI);
     long double v = (PI - theta)/PI;
 
-    int j = (int)((texture->width  - 1) * u); 
+    int j = (int)((texture->width  - 1) * u);
     int i = (int)((texture->height - 1) * (1 - v));
 
 	cgAVS_Pixel texel = texture->data[i][j];
-	
+
 	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
 
 	return color;

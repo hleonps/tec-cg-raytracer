@@ -57,7 +57,7 @@ void parser_init(FILE* fp){
 				printf("Failed to create scene\n");
 				return;
 			}
-			
+
 		}
 		else if(strcmp(line, "#defcylinder") == 0){
 			cgObject *cylinder = readCylinder(fp);
@@ -89,7 +89,7 @@ void parser_init(FILE* fp){
 				printf("Failed to create scene\n");
 				return;
 			}
-			
+
 		}
 		else if(strcmp(line, "@deflight") == 0){
 			cgLight *light_source = readLightSource(fp);
@@ -172,7 +172,7 @@ int readScene(FILE* fp){
 
 cgObject *readSphere(FILE* fp){
 	cgObject *sphere = createGenericObject(SPHERE);
-	
+
 	cgSphere *information = (cgSphere*)malloc(sizeof(cgSphere));
 
 	char *line;
@@ -222,7 +222,7 @@ cgObject *readSphere(FILE* fp){
 
 cgObject *readPolygon(FILE* fp){
 	cgObject *polygon = createGenericObject(POLYGON);
-	
+
 	cgPolygon *information = (cgPolygon*)malloc(sizeof(cgPolygon));
 	information->normal_vector = NULL;
 
@@ -281,7 +281,7 @@ cgObject *readPolygon(FILE* fp){
 
 cgObject *readCylinder(FILE* fp){
 	cgObject *cylinder = createGenericObject(CYLINDER);
-	
+
 	cgCylinder *information = (cgCylinder*)malloc(sizeof(cgCylinder));
 
 	char *line;
@@ -362,7 +362,7 @@ cgObject *readCylinder(FILE* fp){
 
 cgObject *readCone(FILE* fp){
 	cgObject *cone = createGenericObject(CONE);
-	
+
 	cgCone *information = (cgCone*)malloc(sizeof(cgCone));
 
 	char *line;
@@ -452,7 +452,7 @@ cgObject *readCone(FILE* fp){
 
 cgObject *readDisk(FILE* fp){
 	cgObject *disk = createGenericObject(DISK);
-	
+
 	cgDisk *information = (cgDisk*)malloc(sizeof(cgDisk));
 	information->normal_vector = NULL;
 	information->inner_radius = 0;
@@ -634,7 +634,7 @@ char* readline(FILE* fp){
 			else{
 				line[bytes_read - 1] = '\0';
 			}
-		}	
+		}
 		else{
 			/* Ignore tabs */
 			continue;
@@ -719,7 +719,7 @@ int readForGenericObject(char* token, cgObject* object){
 			printf("Syntax error at line %d\n", line_count);
 			return 0;
 		}
-		
+
 		FILE *fp = fopen(token, "r");
 		if(fp == NULL){
 			object->texture = NULL;

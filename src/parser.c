@@ -713,6 +713,22 @@ int readForGenericObject(char* token, cgObject* object){
 		long double *values = ldvalues(token, 1);
 		object->reflection_factor = values[0];
 	}
+	else if(strcmp(token, "texture") == 0){
+		token = strtok(NULL, " ");
+		if(token == NULL){
+			printf("Syntax error at line %d\n", line_count);
+			return 0;
+		}
+		
+		FILE *fp = fopen(token, "r");
+		if(fp == NULL){
+			object->texture = NULL;
+			printf("Failed to read texture file\n");
+		}
+		else{
+			object->texture = readAVS(fp);
+		}
+	}
 	else{
 		printf("Warning: %s is not a valid property at line %i\n", token, line_count);
 	}
@@ -729,27 +745,32 @@ cgObject* createGenericObject(cgObjectType type){
 	object->environment_lighting = 0;
 	object->transparency_factor = 0;
 	object->reflection_factor = 0;
-
+	object->texture = NULL;
 	switch(type){
 		case SPHERE:
 			object->intersection = &cgSphereIntersection;
 			object->normal_vector = (cgNormalVector) &cgSphereNormalVector;
+			object->texture_color = (cgTextureColor) &cgSphereTextureColor;
 			break;
 		case POLYGON:
 			object->intersection = &cgPolygonIntersection;
 			object->normal_vector = (cgNormalVector) &cgPolygonNormalVector;
+			object->texture_color = (cgTextureColor) &cgPolygonTextureColor;
 			break;
 		case CYLINDER:
 			object->intersection = &cgCylinderIntersection;
 			object->normal_vector = (cgNormalVector) &cgCylinderNormalVector;
+			object->texture_color = (cgTextureColor) &cgCylinderTextureColor;
 			break;
 		case CONE:
 			object->intersection = &cgConeIntersection;
 			object->normal_vector = (cgNormalVector) &cgConeNormalVector;
+			object->texture_color = (cgTextureColor) &cgConeTextureColor;
 			break;
 		case DISK:
 			object->intersection = &cgDiskIntersection;
 			object->normal_vector = (cgNormalVector) &cgDiskNormalVector;
+			object->texture_color = (cgTextureColor) &cgDiskTextureColor;
 			break;
 		default:
 			object = NULL;

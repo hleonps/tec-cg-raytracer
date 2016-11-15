@@ -142,3 +142,41 @@ cgVector3f cgCylinderNormalVector(cgPoint3f point, void * information){
 
 	return normal_vector;
 }
+
+cgColor cgCylinderTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data){
+	cgCylinder cylinder_information = (*(cgCylinder*) (data));
+	cgVector3f intersection_vector = {
+		.x = intersection.x - cylinder_information.anchor.x,
+		.y = intersection.y - cylinder_information.anchor.y,
+		.z = intersection.z - cylinder_information.anchor.z
+	};
+
+	long double H = fabsl(cylinder_information.distance_b - cylinder_information.distance_a);
+	long double v = cgDotProduct(cylinder_information.direction, intersection_vector)/H;
+
+	v = (v > 1) ? 1.0 : v; /* Temporary fix for small cylinders */
+
+	cgVector3f normal_vector = cgCylinderNormalVector(intersection, data);
+
+	cgVector3f g = *cylinder_information.texture_start;
+	long double u = acos(cgDotProduct(normal_vector, g))/(2.0*PI);
+
+	cgVector3f q = cylinder_information.direction;
+	cgVector3f plane_normal = cgCrossProduct(g, q);
+	long double d = -plane_normal.x * q.x - plane_normal.y*q.y - plane_normal.z*q.z;
+
+	long double result = plane_normal.x*intersection.x + plane_normal.y*intersection.y +
+		plane_normal.z*intersection.z + d;
+
+	if(result < 0){
+		u = 1 - u;
+	}
+	int i = texture->height * (1 - v);
+	int j = texture->width * u;
+
+	cgAVS_Pixel texel = texture->data[i][j];
+	
+	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
+
+	return color;
+}

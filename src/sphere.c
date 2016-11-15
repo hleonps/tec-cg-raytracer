@@ -62,3 +62,32 @@ cgIntersection * cgSphereIntersection(cgPoint3f camera, cgVector3f ray_direction
 
 	return intersection;
 }
+
+cgColor cgSphereTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data){
+	cgSphere sphere_information = (*(cgSphere*) (data));
+
+	cgVector3f intersection_to_center_vector = {
+		.x = intersection.x - sphere_information.center.x,
+		.y = (intersection.y - sphere_information.center.y),
+		.z = intersection.z - sphere_information.center.z,
+	};
+
+	long double theta = acos(intersection_to_center_vector.y/sphere_information.radius);
+    long double phi = atan2(intersection_to_center_vector.x, intersection_to_center_vector.z);
+
+    if(phi < 0.0){
+    	phi += 2*PI;
+    }
+        
+    long double u = phi/(2*PI);
+    long double v = (PI - theta)/PI;
+
+    int j = (int)((texture->width  - 1) * u); 
+    int i = (int)((texture->height - 1) * (1 - v));
+
+	cgAVS_Pixel texel = texture->data[i][j];
+	
+	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
+
+	return color;
+}

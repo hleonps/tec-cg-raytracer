@@ -113,7 +113,29 @@ cgColor cgPickColor(cgPoint3f camera, cgVector3f ray_direction, unsigned int ref
 	if(intersection){
 		cgObject object = intersection->object;
 
-		color = object.color;
+		if(object.texture == NULL){
+			color = object.color;
+		}
+		else{
+			switch (object.type) {
+				case SPHERE:
+					color = ((cgTextureColorSphere) object.texture_color)(object.texture, intersection->point, object.data);
+					break;
+				case POLYGON:
+					color = ((cgTextureColorPolygon) object.texture_color)(object.texture, intersection->point, object.data);
+					break;
+				case CYLINDER:
+					color = ((cgTextureColorCylinder) object.texture_color)(object.texture, intersection->point, object.data);
+					break;
+				case CONE:
+					color = ((cgTextureColorCone) object.texture_color)(object.texture, intersection->point, object.data);
+					break;
+				case DISK:
+					color = ((cgTextureColorDisk) object.texture_color)(object.texture, intersection->point, object.data);
+					break;
+			}
+		}
+
 		long double diffuse_intensity = 0;
 		long double specular_intensity = 0;
 

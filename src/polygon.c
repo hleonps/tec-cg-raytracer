@@ -146,3 +146,37 @@ cgPoint2f* cgMoveIntersectionToOrigin(cgPoint2f intersection, int points_count, 
 
 	return new_points;
 }
+
+cgColor cgPolygonTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data){
+	cgPolygon information = (*(cgPolygon*) (data));
+	long double H = information.texture->width;
+	long double L = information.texture->height;
+
+	cgVector3f a_vector = {
+		.x = intersection.x - information.texture->rectangle[0].x,
+		.y = intersection.y - information.texture->rectangle[0].y,
+		.z = intersection.z - information.texture->rectangle[0].z
+	};
+
+	cgVector3f U_vector = {
+		.x = (information.texture->rectangle[1].x - information.texture->rectangle[0].x)/H,
+		.y = (information.texture->rectangle[1].y - information.texture->rectangle[0].y)/H,
+		.z = (information.texture->rectangle[1].z - information.texture->rectangle[0].z)/H
+	};
+
+	cgVector3f V_vector = {
+		.x = (information.texture->rectangle[3].x - information.texture->rectangle[0].x)/L,
+		.y = (information.texture->rectangle[3].y - information.texture->rectangle[0].y)/L,
+		.z = (information.texture->rectangle[3].z - information.texture->rectangle[0].z)/L
+	};
+
+	long double u = cgDotProduct(a_vector, U_vector)/H;
+	long double v = cgDotProduct(a_vector, V_vector)/L;
+
+	int i = (texture->height - 1) * v;
+	int j = (texture->width - 1) * u;
+	cgAVS_Pixel texel = texture->data[i][j];
+	
+	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
+	return color;
+}

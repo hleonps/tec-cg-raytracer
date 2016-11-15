@@ -38,6 +38,7 @@ struct cgObject {
 	long double transparency_factor;
 	cgAVS_t* texture;
 	cgCuttingPlane * cutting_planes;
+	size_t cutting_planes_count;
 };
 
 struct cgIntersection{
@@ -55,3 +56,5 @@ struct cgCuttingPlane {
 	long double D;
 	cgCuttingDirection direction;
 };
+
+int canUseIntersectionPoint(cgPoint3f * intersection_point, cgObject * object);

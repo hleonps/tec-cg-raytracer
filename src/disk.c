@@ -66,7 +66,7 @@ cgIntersection * cgDiskIntersection(cgPoint3f anchor, cgVector3f ray_direction, 
 
 	long double distance = cgVectorMagnitude(intersection_vector);
 
-	if(distance <= disk_information.outer_radius && distance >= disk_information.inner_radius){
+	if(cgCanUseIntersectionPoint(&intersection_point, disk) && distance <= disk_information.outer_radius && distance >= disk_information.inner_radius){
 		intersection = malloc(sizeof(cgIntersection));
 		intersection->distance = t;
 		intersection->point = intersection_point;

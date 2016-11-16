@@ -77,11 +77,11 @@ cgIntersection * cgCylinderIntersection(cgPoint3f anchor, cgVector3f ray_directi
 		anchor.z + (second_t * ray_direction.z)
 	};
 
-	if(first_t > EPSILON && cgIsInsideFiniteCylinder(first_point, cylinder_information)){
+	if(first_t > EPSILON && cgCanUseIntersectionPoint(&first_point, cylinder) && cgIsInsideFiniteCylinder(first_point, cylinder_information)){
 		t = first_t;
 		point_t = first_point;
 	}
-	else if(second_t > EPSILON && cgIsInsideFiniteCylinder(second_point, cylinder_information)){
+	else if(second_t > EPSILON && cgCanUseIntersectionPoint(&second_point, cylinder) && cgIsInsideFiniteCylinder(second_point, cylinder_information)){
 		t = second_t;
 		point_t = second_point;
 	}

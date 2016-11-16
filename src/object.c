@@ -4,7 +4,7 @@
 
 cgCuttingDirection cgPointPositionFromPlane(cgPoint3f * intersection_point, cgCuttingPlane * plane);
 
-int canUseIntersectionPoint(cgPoint3f * intersection_point, cgObject * object){
+int cgCanUseIntersectionPoint(cgPoint3f * intersection_point, cgObject * object){
   for (size_t i = 0; i < object->cutting_planes_count; i++) {
     if(cgPointPositionFromPlane(intersection_point, &(object->cutting_planes[i])) == object->cutting_planes[i].direction){
       return 0;

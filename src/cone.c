@@ -84,11 +84,11 @@ cgIntersection * cgConeIntersection(cgPoint3f anchor, cgVector3f ray_direction, 
 		anchor.z + (second_t * ray_direction.z)
 	};
 
-	if(first_t > EPSILON && cgIsInsideFiniteCone(first_point, cone_information)){
+	if(first_t > EPSILON && cgCanUseIntersectionPoint(&first_point, cone) && cgIsInsideFiniteCone(first_point, cone_information)){
 		t = first_t;
 		point_t = first_point;
 	}
-	else if(second_t > EPSILON && cgIsInsideFiniteCone(second_point, cone_information)){
+	else if(second_t > EPSILON && cgCanUseIntersectionPoint(&second_point, cone) && cgIsInsideFiniteCone(second_point, cone_information)){
 		t = second_t;
 		point_t = second_point;
 	}

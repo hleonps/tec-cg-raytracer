@@ -56,4 +56,4 @@ struct cgCuttingPlane {
 	cgCuttingDirection direction;
 };
 
-int canUseIntersectionPoint(cgPoint3f * intersection_point, cgObject * object);
+int cgCanUseIntersectionPoint(cgPoint3f * intersection_point, cgObject * object);

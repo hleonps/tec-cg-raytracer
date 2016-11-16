@@ -77,7 +77,7 @@ cgIntersection * cgPolygonIntersection(cgPoint3f anchor, cgVector3f ray_directio
 		intersection_2d.y = intersection_point.y;
 	}
 
-	if(cgIsIntersectionInsidePolygon(intersection_2d, polygon_information)){
+	if(cgCanUseIntersectionPoint(&intersection_point, polygon) && cgIsIntersectionInsidePolygon(intersection_2d, polygon_information)){
 		intersection = malloc(sizeof(cgIntersection));
 		intersection->distance = t;
 		intersection->point = intersection_point;

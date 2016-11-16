@@ -7,6 +7,7 @@
 #include "sphere.h"
 
 #define MIN(X,Y) ((X < Y) ? X : Y)
+#define MAX(X,Y) ((X > Y) ? X : Y)
 
 extern const long double NO_INTERSECTION_T_VALUE;
 extern const long double EPSILON;
@@ -31,7 +32,10 @@ cgIntersection * cgSphereIntersection(cgPoint3f anchor, cgVector3f ray_direction
 		+ (intersection_direction.z * intersection_direction.z) - (sphere_information.radius * sphere_information.radius);
 
 	long double discriminant = (beta * beta) - (4 * delta);
-	long double t_min = NO_INTERSECTION_T_VALUE;
+	long double t = NO_INTERSECTION_T_VALUE;
+	long double first_t = NO_INTERSECTION_T_VALUE;
+	long double second_t = NO_INTERSECTION_T_VALUE;
+	cgPoint3f point_t;
 
 	if(discriminant > EPSILON){
 		long double discriminant_root = sqrt(discriminant);
@@ -39,23 +43,44 @@ cgIntersection * cgSphereIntersection(cgPoint3f anchor, cgVector3f ray_direction
 		long double t2 = ((long double) -beta - discriminant_root) / 2;
 
 		if(t1 > EPSILON && t2 > EPSILON) {
-			t_min = MIN(t1, t2);
+			first_t = MIN(t1, t2);
+			second_t = MAX(t1, t2);
 		}
 		else if(t1 > EPSILON){
-			t_min = t1;
+			first_t = t1;
 		}
 		else if(t2 > EPSILON){
-			t_min = t2;
+			first_t = t2;
 		}
 	}
 
-	if(t_min > (NO_INTERSECTION_T_VALUE + EPSILON)){
+	cgPoint3f first_point = {
+		anchor.x + (first_t * ray_direction.x),
+		anchor.y + (first_t * ray_direction.y),
+		anchor.z + (first_t * ray_direction.z)
+	};
+
+	cgPoint3f second_point = {
+		anchor.x + (second_t * ray_direction.x),
+		anchor.y + (second_t * ray_direction.y),
+		anchor.z + (second_t * ray_direction.z)
+	};
+
+	if(first_t > EPSILON && cgCanUseIntersectionPoint(&first_point, sphere)){
+		t = first_t;
+		point_t = first_point;
+	}
+	else if(second_t > EPSILON && cgCanUseIntersectionPoint(&second_point, sphere)){
+		t = second_t;
+		point_t = second_point;
+	}
+
+	if(t > (NO_INTERSECTION_T_VALUE + EPSILON)){
 		intersection = (cgIntersection *) malloc(sizeof(cgIntersection));
 
-		intersection->distance = t_min;
+		intersection->distance = t;
 
-		cgPoint3f intersection_point = {anchor.x + (t_min * ray_direction.x),
-			anchor.y + (t_min * ray_direction.y), anchor.z + (t_min * ray_direction.z)};
+		cgPoint3f intersection_point = point_t;
 
 		intersection->point = intersection_point;
 	}

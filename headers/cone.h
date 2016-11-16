@@ -14,5 +14,5 @@ struct cgCone {
 };
 
 cgVector3f cgConeNormalVector(cgPoint3f intersection, void *information);
-cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, void *information);
+cgIntersection * cgConeIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * cone);
 cgColor cgConeTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data);

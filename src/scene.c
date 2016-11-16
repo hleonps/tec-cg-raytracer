@@ -49,11 +49,11 @@ void cgAddPolygonToScene(cgObject polygon){
 
 	if(polygon.texture != NULL){
 		/* Rectangle points (Xmin, Ymin, Zmin) (Xmin, Ymax, Zmin) (Xmax, Ymin, Zmax) (Xmax, Ymax, Zmax) */
-		long double min_x = information->points_3d[0].x, 
-			min_y = information->points_3d[0].y, 
-			min_z = information->points_3d[0].z, 
-			max_x = information->points_3d[0].x, 
-			max_y = information->points_3d[0].y, 
+		long double min_x = information->points_3d[0].x,
+			min_y = information->points_3d[0].y,
+			min_z = information->points_3d[0].z,
+			max_x = information->points_3d[0].x,
+			max_y = information->points_3d[0].y,
 			max_z = information->points_3d[0].z;
 
 		information->texture = malloc(sizeof(cgPolygonTexture));
@@ -87,7 +87,7 @@ void cgAddPolygonToScene(cgObject polygon){
 				max_z = tmp->z;
 			}
 		}
-		
+
 		cgPoint3f p3 = {.x = min_x, .y = min_y, .z = min_z}, p1 = {.x = max_x, .y = max_y, .z = max_z};
 		cgPoint3f p2 = {.x = max_x, .y = min_y, .z = max_z}, p0 = {.x = min_x, .y = max_y, .z = min_z};
 
@@ -147,7 +147,7 @@ void cgAddCylinderToScene(cgObject cylinder){
 		};
 
 		cgVector3f normalized_g = cgNormalizedVector(g, cgVectorMagnitude(g));
-		
+
 		cgVector3f *new_g = malloc(sizeof(cgVector3f));
 
 		new_g->x = normalized_g.x;
@@ -198,7 +198,7 @@ void cgAddConeToScene(cgObject cone){
 		};
 
 		cgVector3f normalized_g = cgNormalizedVector(g, cgVectorMagnitude(g));
-		
+
 		cgVector3f *new_g = malloc(sizeof(cgVector3f));
 
 		new_g->x = normalized_g.x;
@@ -230,11 +230,11 @@ void cgAddDiskToScene(cgObject disk){
 			Ax + By + Cz + D = 0 */
 		long double d = -(a * information->center.x + b * information->center.y + c * information->center.z);
 
-		long double min_x = information->center.x - information->outer_radius, 
-			min_y = information->center.y - information->outer_radius, 
+		long double min_x = information->center.x - information->outer_radius,
+			min_y = information->center.y - information->outer_radius,
 			min_z = (-a*min_x -b*min_y - d)/c,
-			max_x = information->center.x + information->outer_radius, 
-			max_y = information->center.y + information->outer_radius, 
+			max_x = information->center.x + information->outer_radius,
+			max_y = information->center.y + information->outer_radius,
 			max_z = (-a*max_x -b*max_y - d)/c;
 
 		information->texture = malloc(sizeof(cgDiskTexture));
@@ -279,7 +279,7 @@ cgIntersection * cgFirstIntersection(cgPoint3f camera, cgVector3f ray_direction)
 	long double t_min = DBL_MAX;
 
 	for (int i = 0; i < scene.num_objects; i++) {
-		temp_intersection = scene.objects[i].intersection(camera, ray_direction, scene.objects[i].data);
+		temp_intersection = scene.objects[i].intersection(camera, ray_direction, &(scene.objects[i]));
 
 		if(temp_intersection && temp_intersection->distance < t_min
 				&& temp_intersection->distance > EPSILON){

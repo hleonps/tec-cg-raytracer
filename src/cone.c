@@ -13,12 +13,12 @@ int cgIsInsideFiniteCone(cgPoint3f intersection_point, cgCone information);
 extern const long double EPSILON;
 extern const long double NO_INTERSECTION_T_VALUE;
 
-cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, void * information){
-	cgCone cone_information = (*(cgCone*) (information));
+cgIntersection * cgConeIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * cone){
+	cgCone cone_information = (*(cgCone*) (cone->data));
 	cgIntersection * intersection = NULL;
 
 	cgVector3f vector_q = cone_information.direction;
-	cgPoint3f anchor = cone_information.anchor;
+	cgPoint3f cone_anchor = cone_information.anchor;
 	long double radius_k = cone_information.radius_k;
 	long double distance_k = cone_information.distance_k;
 
@@ -28,26 +28,26 @@ cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, voi
 
 	long double beta = 2
 		* ( ( (vector_q.x * cgDotProduct(ray_direction, vector_q) - ray_direction.x)
-		* ( (anchor.x - eye.x) * (1 - powl(vector_q.x, 2)) + vector_q.x
-		* (vector_q.y * (eye.y - anchor.y) + vector_q.z * (eye.z - anchor.z) ) ) )
+		* ( (cone_anchor.x - anchor.x) * (1 - powl(vector_q.x, 2)) + vector_q.x
+		* (vector_q.y * (anchor.y - cone_anchor.y) + vector_q.z * (anchor.z - cone_anchor.z) ) ) )
 		+ ( (vector_q.y * cgDotProduct(vector_q, ray_direction) - ray_direction.y)
-		* ( (anchor.y - eye.y) * (1 - powl(vector_q.y, 2)) + vector_q.y
-		* (vector_q.x * (eye.x - anchor.x) + vector_q.z * (eye.z - anchor.z) ) ) )
+		* ( (cone_anchor.y - anchor.y) * (1 - powl(vector_q.y, 2)) + vector_q.y
+		* (vector_q.x * (anchor.x - cone_anchor.x) + vector_q.z * (anchor.z - cone_anchor.z) ) ) )
 		+ ( (vector_q.z * cgDotProduct(vector_q, ray_direction) - ray_direction.z)
-		* ( (anchor.z - eye.z) * (1 - powl(vector_q.z, 2)) + vector_q.z
-		* (vector_q.x * (eye.x - anchor.x) + vector_q.y * (eye.y - anchor.y) ) ) )
+		* ( (cone_anchor.z - anchor.z) * (1 - powl(vector_q.z, 2)) + vector_q.z
+		* (vector_q.x * (anchor.x - cone_anchor.x) + vector_q.y * (anchor.y - cone_anchor.y) ) ) )
 	 	- (powl(radius_k / distance_k, 2) * cgDotProduct(ray_direction, vector_q)
-		* ((eye.x * vector_q.x) + (eye.y * vector_q.y) + (eye.z * vector_q.z) - ((anchor.x * vector_q.x) + (anchor.y * vector_q.y)
-	 	+ (anchor.z * vector_q.z)) ) ) );
+		* ((anchor.x * vector_q.x) + (anchor.y * vector_q.y) + (anchor.z * vector_q.z) - ((cone_anchor.x * vector_q.x) + (cone_anchor.y * vector_q.y)
+	 	+ (cone_anchor.z * vector_q.z)) ) ) );
 
-	long double delta = powl((anchor.x - eye.x) * (1 - powl(vector_q.x, 2))
- 		+ vector_q.x * ((eye.y * vector_q.y) - (anchor.y * vector_q.y) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
-		+ powl((anchor.y - eye.y) * (1 - powl(vector_q.y, 2))
-	 	+ vector_q.y * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.z * vector_q.z) - (anchor.z * vector_q.z)), 2)
-		+ powl((anchor.z - eye.z) * (1 - powl(vector_q.z, 2))
-	 	+ vector_q.z * ((eye.x * vector_q.x) - (anchor.x * vector_q.x) + (eye.y * vector_q.y) - (anchor.y * vector_q.y)), 2)
-		- powl((radius_k / distance_k) * ((eye.x * vector_q.x) + (eye.y * vector_q.y) + (eye.z * vector_q.z) - ((anchor.x * vector_q.x) + (anchor.y * vector_q.y)
-	 	+ (anchor.z * vector_q.z)) ), 2);
+	long double delta = powl((cone_anchor.x - anchor.x) * (1 - powl(vector_q.x, 2))
+ 		+ vector_q.x * ((anchor.y * vector_q.y) - (cone_anchor.y * vector_q.y) + (anchor.z * vector_q.z) - (cone_anchor.z * vector_q.z)), 2)
+		+ powl((cone_anchor.y - anchor.y) * (1 - powl(vector_q.y, 2))
+	 	+ vector_q.y * ((anchor.x * vector_q.x) - (cone_anchor.x * vector_q.x) + (anchor.z * vector_q.z) - (cone_anchor.z * vector_q.z)), 2)
+		+ powl((cone_anchor.z - anchor.z) * (1 - powl(vector_q.z, 2))
+	 	+ vector_q.z * ((anchor.x * vector_q.x) - (cone_anchor.x * vector_q.x) + (anchor.y * vector_q.y) - (cone_anchor.y * vector_q.y)), 2)
+		- powl((radius_k / distance_k) * ((anchor.x * vector_q.x) + (anchor.y * vector_q.y) + (anchor.z * vector_q.z) - ((cone_anchor.x * vector_q.x) + (cone_anchor.y * vector_q.y)
+	 	+ (cone_anchor.z * vector_q.z)) ), 2);
 
 	long double discriminant = (beta * beta) - (4 * alpha * delta);
 	long double t = NO_INTERSECTION_T_VALUE;
@@ -73,22 +73,22 @@ cgIntersection * cgConeIntersection(cgPoint3f eye, cgVector3f ray_direction, voi
 	}
 
 	cgPoint3f first_point = {
-		eye.x + (first_t * ray_direction.x),
-		eye.y + (first_t * ray_direction.y),
-		eye.z + (first_t * ray_direction.z)
+		anchor.x + (first_t * ray_direction.x),
+		anchor.y + (first_t * ray_direction.y),
+		anchor.z + (first_t * ray_direction.z)
 	};
 
 	cgPoint3f second_point = {
-		eye.x + (second_t * ray_direction.x),
-		eye.y + (second_t * ray_direction.y),
-		eye.z + (second_t * ray_direction.z)
+		anchor.x + (second_t * ray_direction.x),
+		anchor.y + (second_t * ray_direction.y),
+		anchor.z + (second_t * ray_direction.z)
 	};
 
-	if(first_t > EPSILON && cgIsInsideFiniteCone(first_point, cone_information)){
+	if(first_t > EPSILON && cgCanUseIntersectionPoint(&first_point, cone) && cgIsInsideFiniteCone(first_point, cone_information)){
 		t = first_t;
 		point_t = first_point;
 	}
-	else if(second_t > EPSILON && cgIsInsideFiniteCone(second_point, cone_information)){
+	else if(second_t > EPSILON && cgCanUseIntersectionPoint(&second_point, cone) && cgIsInsideFiniteCone(second_point, cone_information)){
 		t = second_t;
 		point_t = second_point;
 	}
@@ -178,7 +178,7 @@ cgColor cgConeTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data)
 	int j = texture->width* u;
 
 	cgAVS_Pixel texel = texture->data[i][j];
-	
+
 	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
 
 	return color;

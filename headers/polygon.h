@@ -19,5 +19,5 @@ struct cgPolygonTexture {
 };
 
 cgVector3f cgPolygonNormalVector(void *information);
-cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data);
+cgIntersection * cgPolygonIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * polygon);
 cgColor cgPolygonTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data);

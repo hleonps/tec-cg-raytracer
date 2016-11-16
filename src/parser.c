@@ -729,6 +729,45 @@ int readForGenericObject(char* token, cgObject* object){
 			object->texture = readAVS(fp);
 		}
 	}
+	else if(strcmp(token, "plane") == 0){
+		object->cutting_planes_count++;
+		object->cutting_planes = realloc(object->cutting_planes, object->cutting_planes_count * sizeof(cgCuttingPlane));
+		char** point_vals = malloc(sizeof(char*) * 3);
+		token = strtok(NULL, " ");
+
+		if(token == NULL){
+			printf("Syntax error at line %d\n", line_count);
+			return 0;
+		}
+
+		for(int i = 0; i < 3; i++){
+			point_vals[i] = token;
+			token = strtok(NULL, " ");
+		}
+
+		cgPoint3f *points = malloc(sizeof(cgPoint3f) * 3);
+		for(int i = 0; i < 3; i++){
+			long double *values = ldvalues(point_vals[i], 3);
+			cgPoint3f point = {.x = values[0], .y = values[1], .z = values[2]};
+			points[i] = point;
+		}
+
+		cgCuttingPlane *plane = malloc(sizeof(cgCuttingPlane));
+		plane->direction = (strcmp(token, "above") == 0) ? ABOVE : BELOW;
+
+		cgVector3f vector_a = cgDirectionVector(points[0], points[1]);
+		cgVector3f vector_b = cgDirectionVector(points[0], points[2]);
+
+		cgVector3f normal_vector = cgCrossProduct(vector_a, vector_b);
+		cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
+
+		plane->A = unit_vector.x;
+		plane->B = unit_vector.y;
+		plane->C = unit_vector.z;
+		plane->D = -(plane->A * points[0].x + plane->B * points[0].y + plane->C * points[0].z);
+
+		object->cutting_planes[object->cutting_planes_count - 1] = *plane;
+	}
 	else{
 		printf("Warning: %s is not a valid property at line %i\n", token, line_count);
 	}
@@ -746,6 +785,9 @@ cgObject* createGenericObject(cgObjectType type){
 	object->transparency_factor = 0;
 	object->reflection_factor = 0;
 	object->texture = NULL;
+	object->cutting_planes = NULL;
+	object->cutting_planes_count = 0;
+
 	switch(type){
 		case SPHERE:
 			object->intersection = &cgSphereIntersection;

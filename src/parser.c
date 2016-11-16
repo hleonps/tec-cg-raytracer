@@ -57,7 +57,7 @@ void parser_init(FILE* fp){
 				printf("Failed to create scene\n");
 				return;
 			}
-			
+
 		}
 		else if(strcmp(line, "#defcylinder") == 0){
 			cgObject *cylinder = readCylinder(fp);
@@ -89,7 +89,7 @@ void parser_init(FILE* fp){
 				printf("Failed to create scene\n");
 				return;
 			}
-			
+
 		}
 		else if(strcmp(line, "@deflight") == 0){
 			cgLight *light_source = readLightSource(fp);
@@ -172,7 +172,7 @@ int readScene(FILE* fp){
 
 cgObject *readSphere(FILE* fp){
 	cgObject *sphere = createGenericObject(SPHERE);
-	
+
 	cgSphere *information = (cgSphere*)malloc(sizeof(cgSphere));
 
 	char *line;
@@ -222,7 +222,7 @@ cgObject *readSphere(FILE* fp){
 
 cgObject *readPolygon(FILE* fp){
 	cgObject *polygon = createGenericObject(POLYGON);
-	
+
 	cgPolygon *information = (cgPolygon*)malloc(sizeof(cgPolygon));
 	information->normal_vector = NULL;
 
@@ -281,7 +281,7 @@ cgObject *readPolygon(FILE* fp){
 
 cgObject *readCylinder(FILE* fp){
 	cgObject *cylinder = createGenericObject(CYLINDER);
-	
+
 	cgCylinder *information = (cgCylinder*)malloc(sizeof(cgCylinder));
 
 	char *line;
@@ -362,7 +362,7 @@ cgObject *readCylinder(FILE* fp){
 
 cgObject *readCone(FILE* fp){
 	cgObject *cone = createGenericObject(CONE);
-	
+
 	cgCone *information = (cgCone*)malloc(sizeof(cgCone));
 
 	char *line;
@@ -452,7 +452,7 @@ cgObject *readCone(FILE* fp){
 
 cgObject *readDisk(FILE* fp){
 	cgObject *disk = createGenericObject(DISK);
-	
+
 	cgDisk *information = (cgDisk*)malloc(sizeof(cgDisk));
 	information->normal_vector = NULL;
 	information->inner_radius = 0;
@@ -634,7 +634,7 @@ char* readline(FILE* fp){
 			else{
 				line[bytes_read - 1] = '\0';
 			}
-		}	
+		}
 		else{
 			/* Ignore tabs */
 			continue;
@@ -719,7 +719,7 @@ int readForGenericObject(char* token, cgObject* object){
 			printf("Syntax error at line %d\n", line_count);
 			return 0;
 		}
-		
+
 		FILE *fp = fopen(token, "r");
 		if(fp == NULL){
 			object->texture = NULL;
@@ -728,6 +728,44 @@ int readForGenericObject(char* token, cgObject* object){
 		else{
 			object->texture = readAVS(fp);
 		}
+	}
+	else if(strcmp(token, "plane") == 0){
+		object->cutting_planes_count++;
+		object->cutting_planes = realloc(object->cutting_planes, object->cutting_planes_count * sizeof(cgCuttingPlane));
+		char** point_vals = malloc(sizeof(char*) * 3);
+		token = strtok(NULL, " ");
+
+		if(token == NULL){
+			printf("Syntax error at line %d\n", line_count);
+			return 0;
+		}
+
+		for(int i = 0; i < 3; i++){
+			point_vals[i] = token;
+			token = strtok(NULL, " ");
+		}
+
+		cgPoint3f *points = malloc(sizeof(cgPoint3f) * 3);
+		for(int i = 0; i < 3; i++){
+			long double *values = ldvalues(point_vals[i], 3);
+			cgPoint3f point = {.x = values[0], .y = values[1], .z = values[2]};
+			points[i] = point;
+		}
+
+		cgCuttingPlane *plane = malloc(sizeof(cgCuttingPlane));
+		plane->direction = (strcmp(token, "above") == 0) ? ABOVE : BELOW;
+
+		cgVector3f vector_a = cgDirectionVector(points[0], points[1]);
+		cgVector3f vector_b = cgDirectionVector(points[0], points[2]);
+
+		cgVector3f normal_vector = cgCrossProduct(vector_b, vector_a);
+
+		plane->A = normal_vector.x;
+		plane->B = normal_vector.y;
+		plane->C = normal_vector.z;
+		plane->D = -(normal_vector.x * points[0].x + normal_vector.y * points[0].y + normal_vector.z * points[0].z);
+
+		object->cutting_planes[object->cutting_planes_count - 1] = *plane;
 	}
 	else{
 		printf("Warning: %s is not a valid property at line %i\n", token, line_count);
@@ -746,6 +784,9 @@ cgObject* createGenericObject(cgObjectType type){
 	object->transparency_factor = 0;
 	object->reflection_factor = 0;
 	object->texture = NULL;
+	object->cutting_planes = NULL;
+	object->cutting_planes_count = 0;
+
 	switch(type){
 		case SPHERE:
 			object->intersection = &cgSphereIntersection;

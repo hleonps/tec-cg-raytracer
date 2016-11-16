@@ -33,13 +33,13 @@ cgVector3f cgDiskNormalVector(void *information){
 	return unit_vector;
 }
 
-cgIntersection * cgDiskIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
-	cgDisk disk_information = (*(cgDisk*) (data));
+cgIntersection * cgDiskIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * disk){
+	cgDisk disk_information = (*(cgDisk*) (disk->data));
 
 	cgIntersection * intersection = NULL;
 
 	cgPoint3f disk_center = disk_information.center;
-	cgVector3f normal_vector = cgDiskNormalVector(data);
+	cgVector3f normal_vector = cgDiskNormalVector(disk->data);
 
 	long double a = normal_vector.x, b = normal_vector.y,  c = normal_vector.z;
 
@@ -52,12 +52,12 @@ cgIntersection * cgDiskIntersection(cgPoint3f camera, cgVector3f ray_direction, 
 		return intersection;
 	}
 
-	long double t = -(a * camera.x + b * camera.y + c * camera.z + d)/denominator;
+	long double t = -(a * anchor.x + b * anchor.y + c * anchor.z + d)/denominator;
 
 	cgPoint3f intersection_point;
-	intersection_point.x = camera.x + t * ray_direction.x;
-	intersection_point.y = camera.y + t * ray_direction.y;
-	intersection_point.z = camera.z + t * ray_direction.z;
+	intersection_point.x = anchor.x + t * ray_direction.x;
+	intersection_point.y = anchor.y + t * ray_direction.y;
+	intersection_point.z = anchor.z + t * ray_direction.z;
 
 	cgVector3f intersection_vector;
 	intersection_vector.x = intersection_point.x - disk_center.x;
@@ -66,7 +66,7 @@ cgIntersection * cgDiskIntersection(cgPoint3f camera, cgVector3f ray_direction, 
 
 	long double distance = cgVectorMagnitude(intersection_vector);
 
-	if(distance <= disk_information.outer_radius && distance >= disk_information.inner_radius){
+	if(cgCanUseIntersectionPoint(&intersection_point, disk) && distance <= disk_information.outer_radius && distance >= disk_information.inner_radius){
 		intersection = malloc(sizeof(cgIntersection));
 		intersection->distance = t;
 		intersection->point = intersection_point;
@@ -105,7 +105,7 @@ cgColor cgDiskTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* data)
 	int j = (texture->width - 1) * u;
 
 	cgAVS_Pixel texel = texture->data[i][j];
-	
+
 	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
 	return color;
 }

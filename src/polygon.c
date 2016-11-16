@@ -36,13 +36,13 @@ cgVector3f cgPolygonNormalVector(void *information){
 	return unit_vector;
 }
 
-cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_direction, void * data){
-	cgPolygon polygon_information = (*(cgPolygon*) (data));
+cgIntersection * cgPolygonIntersection(cgPoint3f anchor, cgVector3f ray_direction, cgObject * polygon){
+	cgPolygon polygon_information = (*(cgPolygon*) (polygon->data));
 
 	cgIntersection * intersection = NULL;
 
 	cgPoint3f polygon_point = polygon_information.points_3d[0];
-	cgVector3f normal_vector = cgPolygonNormalVector(data);
+	cgVector3f normal_vector = cgPolygonNormalVector(polygon->data);
 
 	long double a = normal_vector.x, b = normal_vector.y,  c = normal_vector.z;
 
@@ -55,12 +55,12 @@ cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_directio
 		return intersection;
 	}
 
-	long double t = -(a * camera.x + b * camera.y + c * camera.z + d)/denominator;
+	long double t = -(a * anchor.x + b * anchor.y + c * anchor.z + d)/denominator;
 
 	cgPoint3f intersection_point;
-	intersection_point.x = camera.x + t * ray_direction.x;
-	intersection_point.y = camera.y + t * ray_direction.y;
-	intersection_point.z = camera.z + t * ray_direction.z;
+	intersection_point.x = anchor.x + t * ray_direction.x;
+	intersection_point.y = anchor.y + t * ray_direction.y;
+	intersection_point.z = anchor.z + t * ray_direction.z;
 
 	cgPoint2f intersection_2d;
 
@@ -77,7 +77,7 @@ cgIntersection * cgPolygonIntersection(cgPoint3f camera, cgVector3f ray_directio
 		intersection_2d.y = intersection_point.y;
 	}
 
-	if(cgIsIntersectionInsidePolygon(intersection_2d, polygon_information)){
+	if(cgCanUseIntersectionPoint(&intersection_point, polygon) && cgIsIntersectionInsidePolygon(intersection_2d, polygon_information)){
 		intersection = malloc(sizeof(cgIntersection));
 		intersection->distance = t;
 		intersection->point = intersection_point;
@@ -176,7 +176,7 @@ cgColor cgPolygonTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* da
 	int i = (texture->height - 1) * v;
 	int j = (texture->width - 1) * u;
 	cgAVS_Pixel texel = texture->data[i][j];
-	
+
 	cgColor color = {.r = texel.r/255.0, .g = texel.g/255.0, .b = texel.b/255.0};
 	return color;
 }

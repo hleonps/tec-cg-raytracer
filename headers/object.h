@@ -48,8 +48,7 @@ struct cgIntersection{
 };
 
 struct cgCuttingPlane {
-	cgPoint3f * points;
-	size_t points_count;
+	/* Normalized Plane ecuation  Ax + By + Cz + D = 0 */
 	long double A;
 	long double B;
 	long double C;

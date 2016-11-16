@@ -89,7 +89,7 @@ void cgAddPolygonToScene(cgObject polygon){
 		}
 
 		cgPoint3f p3 = {.x = min_x, .y = min_y, .z = min_z}, p1 = {.x = max_x, .y = max_y, .z = max_z};
-		cgPoint3f p2 = {.x = max_x, .y = min_y, .z = max_z}, p0 = {.x = min_x, .y = max_y, .z = min_z};
+		cgPoint3f p2 = {.x = max_x, .y = min_y, .z = min_z}, p0 = {.x = min_x, .y = max_y, .z = max_z};
 
 		information->texture->rectangle[0] = p0;
 		information->texture->rectangle[1] = p1;

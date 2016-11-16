@@ -176,6 +176,9 @@ cgColor cgPolygonTextureColor(cgAVS_t* texture, cgPoint3f intersection, void* da
 	if(v < 0){
 		v = 1 + v;
 	}
+	else if (v >= 1){
+		v = v - 1;
+	}
 
 	int i = texture->height * v;
 	int j = texture->width * u;

@@ -758,13 +758,12 @@ int readForGenericObject(char* token, cgObject* object){
 		cgVector3f vector_a = cgDirectionVector(points[0], points[1]);
 		cgVector3f vector_b = cgDirectionVector(points[0], points[2]);
 
-		cgVector3f normal_vector = cgCrossProduct(vector_a, vector_b);
-		cgVector3f unit_vector = cgNormalizedVector(normal_vector, cgVectorMagnitude(normal_vector));
+		cgVector3f normal_vector = cgCrossProduct(vector_b, vector_a);
 
-		plane->A = unit_vector.x;
-		plane->B = unit_vector.y;
-		plane->C = unit_vector.z;
-		plane->D = -(plane->A * points[0].x + plane->B * points[0].y + plane->C * points[0].z);
+		plane->A = normal_vector.x;
+		plane->B = normal_vector.y;
+		plane->C = normal_vector.z;
+		plane->D = -(normal_vector.x * points[0].x + normal_vector.y * points[0].y + normal_vector.z * points[0].z);
 
 		object->cutting_planes[object->cutting_planes_count - 1] = *plane;
 	}

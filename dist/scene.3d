@@ -18,9 +18,10 @@
 	points 0,100,1000 1008,100,1000 1008,0,0 0,0,0
 	color 255,255,255
 	diffuse-factor 0.5
-	specular-factor 0
-	specular-focus 0
+	specular-factor 0.8
+	specular-focus 50
 	environment-lighting 1
+	texture ./dist/tscene1/ceiling.avs
 #enddef
 
 #defpolygon
@@ -30,6 +31,7 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
+	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -39,6 +41,7 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
+	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -48,6 +51,7 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
+	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -57,6 +61,79 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/door.avs
+#enddef
+
+#defdisk
+	center 796,308,999
+	inner-radius 4
+	outer-radius 35
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
+	texture ./dist/tscene1/vinyl.avs
+#enddef
+
+#defdisk
+	center 796,308,996
+	color 255,0,0
+	inner-radius 4
+	outer-radius 10
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
+#enddef
+
+#defdisk
+	center 841,308,999
+	inner-radius 4
+	outer-radius 35
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
+	texture ./dist/tscene1/vinyl.avs
+#enddef
+
+#defdisk
+	center 841,308,996
+	color 255,0,0
+	inner-radius 4
+	outer-radius 10
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
+#enddef
+
+#defdisk
+	center 886,308,999
+	inner-radius 4
+	outer-radius 35
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
+	texture ./dist/tscene1/vinyl.avs
+#enddef
+
+#defdisk
+	center 886,308,996
+	color 255,0,0
+	inner-radius 4
+	outer-radius 10
+	diffuse-factor 0.8
+	specular-factor 0.6
+	specular-focus 50
+	environment-lighting 0.3
+	plane-points 450,200,999 450,567,999 650,567,999
 #enddef
 
 #defsphere
@@ -67,20 +144,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
-#enddef
-
-#defcone
-	anchor 504,20,500
-	direction 0,100,0
-	radius-k 10
-	distance-k 16
-	min-limit 25
-	max-limit 50
-	color 250,250,250
-	diffuse-factor 0.9
-	specular-factor 0.5
-	specular-focus 50
-	environment-lighting 0.5
+	reflection-factor 0.2
 #enddef
 
 #defcylinder
@@ -156,7 +220,7 @@
 	anchor 900,0,110
 	direction 0,100,0
 	radius 5
-	min-limit 457
+	min-limit 460
 	max-limit 567
 	color 250,250,250
 	diffuse-factor 0.8
@@ -169,7 +233,7 @@
 	anchor 700,0,110
 	direction 0,100,0
 	radius 5
-	min-limit 457
+	min-limit 460
 	max-limit 567
 	color 250,250,250
 	diffuse-factor 0.8
@@ -182,7 +246,7 @@
 	anchor 900,0,500
 	direction 0,100,0
 	radius 5
-	min-limit 457
+	min-limit 460
 	max-limit 567
 	color 250,250,250
 	diffuse-factor 0.8
@@ -195,7 +259,7 @@
 	anchor 700,0,500
 	direction 0,100,0
 	radius 5
-	min-limit 457
+	min-limit 460
 	max-limit 567
 	color 250,250,250
 	diffuse-factor 0.8
@@ -244,6 +308,16 @@
 	environment-lighting 0.3
 #enddef
 
+#defsphere
+	center 700,447,380
+	radius 10
+	color 255,255,255
+	diffuse-factor 0.8
+	specular-factor 50
+	specular-focus 50
+	environment-lighting 0.3
+#enddef
+
 #defpolygon
 	points 10,200,100 10,400,100 10,400,500 10,200,500
 	color 50,50,50
@@ -251,6 +325,8 @@
 	specular-factor 0.9
 	specular-focus 50
 	environment-lighting 0.4
+	texture ./dist/tscene1/negan.avs
+	reflection-factor 0.1
 #enddef
 
 #defpolygon
@@ -260,6 +336,7 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
@@ -269,36 +346,37 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
 	points 450,517,100 530,517,100 530,517,600 450,517,600
 	color 188,5,8
 	diffuse-factor 0.5
-	specular-factor 0
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
 	points 550,467,100 600,467,100 600,467,600 550,467,600
 	color 188,5,8
 	diffuse-factor 0.5
-	specular-factor 0
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
 	points 530,517,100 550,467,100 550,467,600 530,517,600
 	color 188,5,8
 	diffuse-factor 0.5
-	specular-factor 0
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
+	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defsphere
@@ -309,6 +387,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -319,6 +398,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -329,6 +409,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -339,6 +420,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -349,6 +431,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -359,6 +442,7 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
 #enddef
 
 #defsphere
@@ -369,6 +453,64 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
+	reflection-factor 0.2
+#enddef
+
+#defsphere
+	center 240,540,815
+	radius 25
+	color 0,255,0
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.3
+	texture ./dist/tscene1/soccer.avs
+#enddef
+
+#defpolygon
+	points 170,500,185 310,500,185 310,500,300 170,500,300
+	color 88,122,94
+	diffuse-factor 0.5
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.3
+	reflection-factor 0.105
+#enddef
+
+#defsphere
+	center 240,540,235
+	radius 50
+	color 0,0,210
+	diffuse-factor 0.8
+	specular-factor 0.8
+	specular-focus 50
+	environment-lighting 0.3
+	plane 0,567,1000 1008,567,1000 1008,567,0 below
+	plane 310,500,185 310,500,300 170,500,300 below
+#enddef
+
+#defpolygon
+	points 1005,160,300 1005,397,300 1005,397,600 1005,180,600
+	diffuse-factor 0.5
+	specular-factor 0.4
+	specular-focus 50
+	environment-lighting 0.3
+	texture ./dist/tscene1/starwars.avs
+	reflection-factor 0.15
+#enddef
+
+#defcone
+	anchor 504,20,500
+	direction 0,100,0
+	radius-k 10
+	distance-k 16
+	min-limit 25
+	max-limit 50
+	color 250,250,250
+	diffuse-factor 0.9
+	specular-factor 0.5
+	specular-focus 50
+	environment-lighting 0.5
 #enddef
 
 @deflight

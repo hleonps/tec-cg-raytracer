@@ -12,7 +12,10 @@ C_SOURCES = $(wildcard ./src/*.c)
 C_OBJECTS = ./*.o
 EXECUTABLE = ./dist/raytracing
 
-all: compile
+all: create-dist compile
+
+create-dist:
+	mkdir -p ./dist
 
 compile: $(C_SOURCES)
 		$(CC) $(CFLAGS) $(C_SOURCES) $(LDLIBS) -o $(EXECUTABLE)

@@ -21,7 +21,6 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 1
-	texture ./dist/tscene1/ceiling.avs
 #enddef
 
 #defpolygon
@@ -31,7 +30,6 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
-	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -41,7 +39,6 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
-	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -51,7 +48,6 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.8
-	texture ./dist/tscene1/wall2.avs
 #enddef
 
 #defpolygon
@@ -61,7 +57,7 @@
 	specular-factor 0
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/door.avs
+
 #enddef
 
 #defdisk
@@ -73,7 +69,6 @@
 	specular-focus 50
 	environment-lighting 0.3
 	plane-points 450,200,999 450,567,999 650,567,999
-	texture ./dist/tscene1/vinyl.avs
 #enddef
 
 #defdisk
@@ -97,7 +92,7 @@
 	specular-focus 50
 	environment-lighting 0.3
 	plane-points 450,200,999 450,567,999 650,567,999
-	texture ./dist/tscene1/vinyl.avs
+
 #enddef
 
 #defdisk
@@ -121,7 +116,6 @@
 	specular-focus 50
 	environment-lighting 0.3
 	plane-points 450,200,999 450,567,999 650,567,999
-	texture ./dist/tscene1/vinyl.avs
 #enddef
 
 #defdisk
@@ -325,7 +319,6 @@
 	specular-factor 0.9
 	specular-focus 50
 	environment-lighting 0.4
-	texture ./dist/tscene1/negan.avs
 	reflection-factor 0.1
 #enddef
 
@@ -336,7 +329,6 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
@@ -346,7 +338,6 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
@@ -356,7 +347,6 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
@@ -366,7 +356,6 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defpolygon
@@ -376,7 +365,6 @@
 	specular-factor 0.5
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/sofa.avs
 #enddef
 
 #defsphere
@@ -464,7 +452,6 @@
 	specular-factor 0.8
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/soccer.avs
 #enddef
 
 #defpolygon
@@ -495,7 +482,6 @@
 	specular-factor 0.4
 	specular-focus 50
 	environment-lighting 0.3
-	texture ./dist/tscene1/starwars.avs
 	reflection-factor 0.15
 #enddef
 

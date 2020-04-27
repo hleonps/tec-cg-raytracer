@@ -1,4 +1,4 @@
-# RayTracing Engine
+# Ray Tracing Engine
 
 Created by Heiner León & Luis Alvarado
 
